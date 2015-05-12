@@ -4,8 +4,8 @@
 
 # composer
 /vendor
-composer.phar
-composer.lock
+# composer.phar
+# composer.lock
 
 # IDE
 .idea
@@ -27,3 +27,6 @@ phpunit.phar
 # Vagrant
 /.vagrant
 /vagrant.yaml
+
+backend/web/assets/
+frontend/web/assets/
