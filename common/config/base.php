@@ -52,7 +52,7 @@ $config = [
 //            'username' => getenv('DB_USERNAME'),
 //            'password' => getenv('DB_PASSWORD'),
 //            'tablePrefix' => getenv('DB_TABLE_PREFIX'),
-			'dsn' => 'mysql:host=localhost;port=3306;dbname=yii2-starter-kit',
+			'dsn' => 'mysql:host=localhost;port=3306;dbname=bdsii',
             'username' => 'root',
             'password' => '',
             'tablePrefix' => '',
@@ -155,6 +155,8 @@ $config = [
             'en'=>'English (US)',		
         ],
 		'defaultLanguage' => 'vi',
+		'defaultLatLng'=>['lat'=>21.0295818,'lng'=>105.8504133],
+		'googleMapApiKey' =>'AIzaSyAmcDnXsTSW-vfuQm6Be91Rz4GA1fa4s7U',
     ],
 //	'on beforeAction' => function ($event) {
 //

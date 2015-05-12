@@ -19,7 +19,7 @@ use yii\bootstrap\ActiveForm;
 			<div class="row">
 				<div class="col-sm-7">
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 
 							<?= $form->field($model, 'product_type')->widget(\kartik\select2\Select2::classname(), [
 								'data' => common\components\MasterValues::listItemByCode('product_type'),
@@ -53,16 +53,16 @@ use yii\bootstrap\ActiveForm;
 						</div>
 					</div>
 						<div class="row">
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<?= $form->field($model, 'city')->widget(\kartik\select2\Select2::classname(), [
 									'data' => common\models\Province::getProvinceList(),
 									'options' => ['placeholder' =>  Yii::t('product', 'Select City/Province')],
 									'pluginEvents' => [
-										"select2-selected"=>"function() {console.log('select2-selecting city',this.value);Utils.changeAddress('product',this);}",
+										"select2:select"=>"function() {console.log('select2-selecting city',this.value);Utils.changeAddress('product',this);}",
 									]
 								]);?>
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<?php
 								$selectedDistrict = common\models\District::getSelectedDistrict($model->district);
 								echo Html::hiddenInput('district_hidden', $model->district, ['id'=>'district_hidden']);
@@ -77,13 +77,16 @@ use yii\bootstrap\ActiveForm;
 										'params'=>['district_hidden']
 									],
 									'pluginEvents' => [
-										"select2-selected"=>"function() {console.log('select2-selecting district',this.value);Utils.changeAddress('product',this);}",
-										"select2-removed" => "function() {console.log('select2-removed_dis'); Utils.changeAddress('product',this,2); }",
+										"select2:select"=>"function() {console.log('select2-selecting district',this.value);Utils.changeAddress('product',this);}",
+										"select2:unselect" => "function() {console.log('select2-removed_dis'); Utils.changeAddress('product',this,2); }",
 									]
 								]);
 								?>
 							</div>
-							<div class="col-sm-4">
+							
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
 								<?php
 								$selectedWard = !$model->isNewRecord?common\models\Ward::getSelectedWard($model->ward):false;
 								echo Html::hiddenInput('ward_hidden', $model->ward, ['id'=>'ward_hidden']);
@@ -99,15 +102,13 @@ use yii\bootstrap\ActiveForm;
 										'params'=>['ward_hidden']
 									],
 									'pluginEvents' => [
-										"select2-selected"=>"function() {console.log('select2-selecting city',this.value); Utils.changeAddress('product',this); }",
-										"select2-removed" => "function() {console.log('select2-removed-ward'); Utils.changeAddress('product',this,2); }",
+										"select2:select"=>"function() {console.log('select2-selecting city',this.value); Utils.changeAddress('product',this); }",
+										"select2:unselect" => "function() {console.log('select2-removed-ward'); Utils.changeAddress('product',this,2); }",
 									]
 								]);
 								?>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<?php
 								$selectedStreet = !$model->isNewRecord?common\models\Street::getSelectedStreet($model->street):false;
 								echo Html::hiddenInput('street_hidden', $model->street, ['id'=>'street_hidden']);
@@ -123,14 +124,17 @@ use yii\bootstrap\ActiveForm;
 										'params'=>['street_hidden']
 									],
 									'pluginEvents' => [
-										"select2-selected"=>"function() {console.log('select2-selecting street',this.value); Utils.changeAddress('product',this); }",
-										"select2-removed" => "function() {console.log('select2-removed-str'); Utils.changeAddress('product',this,2); }",
+										"select2:select"=>"function() {console.log('select2-selecting street',this.value); Utils.changeAddress('product',this); }",
+										"select2:unselect" => "function() {console.log('select2-removed-str'); Utils.changeAddress('product',this,2); }",
 			//							"depdrop.afterChange"=>"function(event, id, value) { Utils.changeAddress('product');}",
 									]
 								]);
 								?>
 							</div>
-							<div class="col-sm-8">
+							
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
 								<?php
 								$project = $model->getProjectForProduct();
 								if($project){
@@ -151,8 +155,8 @@ use yii\bootstrap\ActiveForm;
 										'params'=>['project_id_hidden']
 									],
 									'pluginEvents' => [
-										"select2-selected"=>"function() {console.log('select2-selecting project_id',this.value); Utils.changeAddress('product',this); }",
-										"select2-removed" => "function() {console.log('select2-pro'); Utils.changeAddress('product',this,2); }",
+										"select2:select"=>"function() {console.log('select2-selecting project_id',this.value); Utils.changeAddress('product',this); }",
+										"select2:unselect" => "function() {console.log('select2-pro'); Utils.changeAddress('product',this,2); }",
 			//							"depdrop.afterChange"=>"function(event, id, value) { Utils.changeAddress('product');}",
 									]
 								]);
@@ -196,7 +200,7 @@ use yii\bootstrap\ActiveForm;
 					<?php echo Html::hiddenInput('Product[lat]', $model->lat,['id'=>'product-lat']) ?>
 					<?php echo Html::hiddenInput('Product[lng]', $model->lng,['id'=>'product-lng']) ?>					
 					<?php echo thuongqbd\googlemap\GoogleMapWidget::widget(
-						['key'=>'AIzaSyAmcDnXsTSW-vfuQm6Be91Rz4GA1fa4s7U','lat'=>21.0295818,'lng'=>105.8504133,'height'=>'355px']
+						['lat'=>$model->lat,'lng'=>$model->lng,'height'=>'430px','resultContainers'=>["lat"=>"product-lat","lng"=>"product-lng","address"=>""]]
 					)?>
 				</div>
 			</div>			
