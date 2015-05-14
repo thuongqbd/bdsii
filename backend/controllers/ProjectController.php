@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 /**
  * ProjectController implements the CRUD actions for Project model.
  */
-class ProjectController extends \common\components\Controller
+class ProjectController extends \backend\components\Controller
 {
     public function behaviors()
     {

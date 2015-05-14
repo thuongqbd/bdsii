@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * ArticleController implements the CRUD actions for Article model.
  */
-class ArticleController extends \common\components\Controller
+class ArticleController extends \backend\components\Controller
 {
     public function behaviors()
     {

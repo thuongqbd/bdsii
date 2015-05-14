@@ -3,11 +3,11 @@ namespace frontend\controllers;
 
 use Yii;
 use frontend\models\ContactForm;
-
+use \yii\helpers\Url;
 /**
  * Site controller
  */
-class SiteController extends \common\components\Controller
+class SiteController extends \frontend\components\Controller
 {
     /**
      * @inheritdoc

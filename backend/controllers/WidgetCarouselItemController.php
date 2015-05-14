@@ -13,7 +13,7 @@ use yii\filters\VerbFilter;
 /**
  * WidgetCarouselItemController implements the CRUD actions for WidgetCarouselItem model.
  */
-class WidgetCarouselItemController extends \common\components\Controller
+class WidgetCarouselItemController extends \backend\components\Controller
 {
 
     public function getViewPath()

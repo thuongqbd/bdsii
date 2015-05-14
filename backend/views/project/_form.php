@@ -29,7 +29,7 @@ use yii\bootstrap\ActiveForm;
 				<div class="col-sm-6">
 					<?= $form->field($model, 'city')->widget(\kartik\select2\Select2::classname(), [
 						'data' => common\models\Province::getProvinceList(),
-						'options' => ['placeholder' => Yii::t('product', 'Select City/Province')],
+						'options' => ['placeholder' => Yii::t('product', 'City/Province')],
 						'pluginEvents' => [
 							"select2:select"=>"function() {console.log('select2-selecting city',this.value);Utils.changeAddress('project',this);}",
 						]
@@ -45,7 +45,7 @@ use yii\bootstrap\ActiveForm;
 						'data'=>  $selectedDistrict?$selectedDistrict:[],
 						'pluginOptions'=>[
 							'depends'=>['project-city'],
-							'placeholder'=>Yii::t('product', 'Select District'),
+							'placeholder'=>Yii::t('product', 'District'),
 							'url'=>  \yii\helpers\Url::to(['/project/get-district']),
 							'params'=>['district_hidden']
 						],
@@ -69,7 +69,7 @@ use yii\bootstrap\ActiveForm;
 						'pluginOptions'=>[
 							'depends'=>['project-city','project-district'],
 							'initialize'=>!$model->isNewRecord?true:false,
-							'placeholder'=>Yii::t('product', 'Select Ward'),
+							'placeholder'=>Yii::t('product', 'Ward'),
 							'url'=>  \yii\helpers\Url::to(['/project/get-ward']),
 							'params'=>['ward_hidden']
 						],
@@ -91,7 +91,7 @@ use yii\bootstrap\ActiveForm;
 						'pluginOptions'=>[
 							'depends'=>['project-city','project-district'],
 							'initialize'=>!$model->isNewRecord?true:false,
-							'placeholder'=>Yii::t('product', 'Select Street'),
+							'placeholder'=>Yii::t('product', 'Street'),
 							'url'=>  \yii\helpers\Url::to(['/project/get-street']),
 							'params'=>['street_hidden']
 						],

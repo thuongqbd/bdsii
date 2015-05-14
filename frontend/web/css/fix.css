@@ -972,8 +972,8 @@ ul li .infor-descrip {
 }
 
 .box.search .item .form-group {
-  margin-bottom: 15px;
-  width: 150px;
+  margin-bottom: 0px;
+  width: 152px;
 }
 .box.search .select2-container--krajee .select2-selection, .box.search .select2-container--krajee .select2-search--dropdown .select2-search__field{
 	border-radius: 0px !important;
@@ -987,6 +987,13 @@ ul li .infor-descrip {
 .select2-container--krajee.select2-container--disabled .select2-selection, .select2-container--krajee.select2-container--disabled .select2-search__field{
 	cursor: pointer;
 }
-.select2-container--krajee .select2-selection--single .select2-selection__placeholder {
+.select2-container--krajee .select2-selection--single .select2-selection__placeholder, .select2-container--krajee .select2-selection {
   font-size: 12px;
+}
+.select2-container--krajee .select2-selection--single{
+	padding: 8px 24px 6px 12px;
+}
+.select2-container--krajee .select2-selection__clear{
+	font-size: 13px;
+	margin-right: 25px;
 }

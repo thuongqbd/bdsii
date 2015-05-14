@@ -8,7 +8,7 @@ use backend\models\search\TimelineEventSearch;
 /**
  * Application timeline controller
  */
-class TimelineEventController extends \common\components\Controller
+class TimelineEventController extends \backend\components\Controller
 {
     public $layout = 'common';
     /**

@@ -23,7 +23,7 @@ use yii\bootstrap\ActiveForm;
 
 							<?= $form->field($model, 'product_type')->widget(\kartik\select2\Select2::classname(), [
 								'data' => common\components\MasterValues::listItemByCode('product_type'),
-								'options' => ['placeholder' => Yii::t('product', 'Select a product type')],
+								'options' => ['placeholder' => Yii::t('product', 'Type')],
 								'pluginOptions' => [
 									'allowClear' => true
 								],
@@ -44,7 +44,7 @@ use yii\bootstrap\ActiveForm;
 								'pluginOptions'=>[
 									'depends'=>['product-product_type'],
 									'initialize'=>true,
-									'placeholder'=>Yii::t('product', 'Select a product cate'),
+									'placeholder'=>Yii::t('product', 'Category'),
 									'url'=>  \yii\helpers\Url::to(['/product/get-cate-list']),
 									'params'=>['product_cate_hidden']
 								]
@@ -56,7 +56,7 @@ use yii\bootstrap\ActiveForm;
 							<div class="col-sm-6">
 								<?= $form->field($model, 'city')->widget(\kartik\select2\Select2::classname(), [
 									'data' => common\models\Province::getProvinceList(),
-									'options' => ['placeholder' =>  Yii::t('product', 'Select City/Province')],
+									'options' => ['placeholder' =>  Yii::t('product', 'City/Province')],
 									'pluginEvents' => [
 										"select2:select"=>"function() {console.log('select2-selecting city',this.value);Utils.changeAddress('product',this);}",
 									]
@@ -72,7 +72,7 @@ use yii\bootstrap\ActiveForm;
 									'data'=>  $selectedDistrict?$selectedDistrict:[],
 									'pluginOptions'=>[
 										'depends'=>['product-city'],
-										'placeholder'=> Yii::t('product', 'Select District'),
+										'placeholder'=> Yii::t('product', 'District'),
 										'url'=>  \yii\helpers\Url::to(['/product/get-district']),
 										'params'=>['district_hidden']
 									],
@@ -97,7 +97,7 @@ use yii\bootstrap\ActiveForm;
 									'pluginOptions'=>[
 										'depends'=>['product-city','product-district'],
 										'initialize'=>!$model->isNewRecord?true:false,
-										'placeholder'=> Yii::t('product', 'Select Ward'),
+										'placeholder'=> Yii::t('product', 'Ward'),
 										'url'=>  \yii\helpers\Url::to(['/product/get-ward']),
 										'params'=>['ward_hidden']
 									],
@@ -119,7 +119,7 @@ use yii\bootstrap\ActiveForm;
 									'pluginOptions'=>[
 										'depends'=>['product-city','product-district'],
 										'initialize'=>!$model->isNewRecord?true:false,
-										'placeholder'=> Yii::t('product', 'Select Street'),
+										'placeholder'=> Yii::t('product', 'Street'),
 										'url'=>  \yii\helpers\Url::to(['/product/get-street']),
 										'params'=>['street_hidden']
 									],
@@ -150,7 +150,7 @@ use yii\bootstrap\ActiveForm;
 									'pluginOptions'=>[
 										'depends'=>['product-city','product-district'],
 										'initialize'=>!$model->isNewRecord?true:false,
-										'placeholder'=> Yii::t('product', 'Select Project'),
+										'placeholder'=> Yii::t('product', 'Project'),
 										'url'=>  \yii\helpers\Url::to(['/product/get-project']),
 										'params'=>['project_id_hidden']
 									],
@@ -173,7 +173,7 @@ use yii\bootstrap\ActiveForm;
 							<div class="col-sm-4">
 								 <?php // echo $form->field($model, 'price_type')->textInput() ?>
 								<?php
-								$selectedPriceType= common\components\MasterValues::itemByValue($model->product_type == 1?'product_type_sale':'product_type_rent', $model->price_type,true);
+								$selectedPriceType= common\components\MasterValues::itemByValue($model->product_type == 1?'price_type_sale':'price_type_rent', $model->price_type,true);
 								echo Html::hiddenInput('price_type_hidden', $model->price_type, ['id'=>'price_type_hidden']);
 								echo $form->field($model, 'price_type')->widget(kartik\depdrop\DepDrop::classname(), [
 									'type'=>kartik\depdrop\DepDrop::TYPE_SELECT2,
@@ -182,7 +182,7 @@ use yii\bootstrap\ActiveForm;
 									'pluginOptions'=>[
 										'depends'=>['product-product_type'],
 										'initialize'=>true,
-										'placeholder'=> Yii::t('product', 'Select a price type'),
+										'placeholder'=> Yii::t('product', 'Price Type'),
 										'url'=>  \yii\helpers\Url::to(['/product/get-price-type-list']),
 										'params'=>['price_type_hidden']
 									]
@@ -265,7 +265,7 @@ use yii\bootstrap\ActiveForm;
 						<div class="col-sm-6">
 							<?= $form->field($model, 'direction')->widget(\kartik\select2\Select2::classname(), [
 								'data' => common\components\MasterValues::listItemByCode('direction'),
-								'options' => ['placeholder' => 'Select a direction ...'],
+								'options' => ['placeholder' => Yii::t('product', 'Direction')],
 								'pluginOptions' => [
 									'allowClear' => true
 								],
@@ -274,7 +274,7 @@ use yii\bootstrap\ActiveForm;
 						<div class="col-sm-6">
 							<?= $form->field($model, 'balcony_direction')->widget(\kartik\select2\Select2::classname(), [
 								'data' => common\components\MasterValues::listItemByCode('direction'),
-								'options' => ['placeholder' => 'Select a direction ...'],
+								'options' => ['placeholder' => Yii::t('product', 'Balcony Direction')],
 								'pluginOptions' => [
 									'allowClear' => true
 								],

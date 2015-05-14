@@ -12,7 +12,7 @@ use Yii;
 use common\models\Page;
 use yii\web\NotFoundHttpException;
 
-class PageController extends \common\components\Controller
+class PageController extends \frontend\components\Controller
 {
     public function actionView($slug)
     {

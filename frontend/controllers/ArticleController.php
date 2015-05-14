@@ -10,7 +10,7 @@ use yii\web\NotFoundHttpException;
 /**
  * @author Eugene Terentev <eugene@terentev.net>
  */
-class ArticleController extends \common\components\Controller
+class ArticleController extends \frontend\components\Controller
 {
     /**
      * @return string

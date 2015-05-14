@@ -19,11 +19,11 @@ use yii\bootstrap\ActiveForm;
 			<div class="row">
 				<div class="col-sm-7">
 					<div class="row">
-						<div class="col-sm-4">
+						<div class="col-sm-6">
 
 							<?= $form->field($model, 'product_type')->widget(\kartik\select2\Select2::classname(), [
 								'data' => common\components\MasterValues::listItemByCode('product_type'),
-								'options' => ['placeholder' => Yii::t('product', 'Select a product type')],
+								'options' => ['placeholder' => Yii::t('product', 'Type')],
 								'pluginOptions' => [
 									'allowClear' => true
 								],
@@ -44,7 +44,7 @@ use yii\bootstrap\ActiveForm;
 								'pluginOptions'=>[
 									'depends'=>['product-product_type'],
 									'initialize'=>true,
-									'placeholder'=>Yii::t('product', 'Select a product cate'),
+									'placeholder'=>Yii::t('product', 'Category'),
 									'url'=>  \yii\helpers\Url::to(['/product/get-cate-list']),
 									'params'=>['product_cate_hidden']
 								]
@@ -53,21 +53,16 @@ use yii\bootstrap\ActiveForm;
 						</div>
 					</div>
 						<div class="row">
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<?= $form->field($model, 'city')->widget(\kartik\select2\Select2::classname(), [
 									'data' => common\models\Province::getProvinceList(),
-			//						'language' => 'de',
-									'options' => ['placeholder' =>  Yii::t('product', 'Select City/Province')],
-			//						'pluginOptions' => [
-			//							'allowClear' => true
-			//						],
+									'options' => ['placeholder' =>  Yii::t('product', 'City/Province')],
 									'pluginEvents' => [
-										"select2-selected"=>"function() {console.log('select2-selecting city',this.value);Utils.changeAddress('product',this);}",
-			//							"select2-removed" => "function() {console.log('select2-removed_dis'); Utils.changeAddress('product',this,2); }",
+										"select2:select"=>"function() {console.log('select2-selecting city',this.value);Utils.changeAddress('product',this);}",
 									]
 								]);?>
 							</div>
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<?php
 								$selectedDistrict = common\models\District::getSelectedDistrict($model->district);
 								echo Html::hiddenInput('district_hidden', $model->district, ['id'=>'district_hidden']);
@@ -77,19 +72,21 @@ use yii\bootstrap\ActiveForm;
 									'data'=>  $selectedDistrict?$selectedDistrict:[],
 									'pluginOptions'=>[
 										'depends'=>['product-city'],
-										'placeholder'=> Yii::t('product', 'Select District'),
+										'placeholder'=> Yii::t('product', 'District'),
 										'url'=>  \yii\helpers\Url::to(['/product/get-district']),
 										'params'=>['district_hidden']
 									],
 									'pluginEvents' => [
-										"select2-selected"=>"function() {console.log('select2-selecting district',this.value);Utils.changeAddress('product',this);}",
-										"select2-removed" => "function() {console.log('select2-removed_dis'); Utils.changeAddress('product',this,2); }",
-			//							"depdrop.afterChange"=>"function(event, id, value) { Utils.changeAddress('product');}",
+										"select2:select"=>"function() {console.log('select2-selecting district',this.value);Utils.changeAddress('product',this);}",
+										"select2:unselect" => "function() {console.log('select2-removed_dis'); Utils.changeAddress('product',this,2); }",
 									]
 								]);
 								?>
 							</div>
-							<div class="col-sm-4">
+							
+						</div>
+						<div class="row">
+							<div class="col-sm-6">
 								<?php
 								$selectedWard = !$model->isNewRecord?common\models\Ward::getSelectedWard($model->ward):false;
 								echo Html::hiddenInput('ward_hidden', $model->ward, ['id'=>'ward_hidden']);
@@ -100,21 +97,18 @@ use yii\bootstrap\ActiveForm;
 									'pluginOptions'=>[
 										'depends'=>['product-city','product-district'],
 										'initialize'=>!$model->isNewRecord?true:false,
-										'placeholder'=> Yii::t('product', 'Select Ward'),
+										'placeholder'=> Yii::t('product', 'Ward'),
 										'url'=>  \yii\helpers\Url::to(['/product/get-ward']),
 										'params'=>['ward_hidden']
 									],
 									'pluginEvents' => [
-										"select2-selected"=>"function() {console.log('select2-selecting city',this.value); Utils.changeAddress('product',this); }",
-										"select2-removed" => "function() {console.log('select2-removed-ward'); Utils.changeAddress('product',this,2); }",
-			//							"depdrop.afterChange"=>"function(event, id, value) { Utils.changeAddress('product');}",
+										"select2:select"=>"function() {console.log('select2-selecting city',this.value); Utils.changeAddress('product',this); }",
+										"select2:unselect" => "function() {console.log('select2-removed-ward'); Utils.changeAddress('product',this,2); }",
 									]
 								]);
 								?>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-sm-4">
+							<div class="col-sm-6">
 								<?php
 								$selectedStreet = !$model->isNewRecord?common\models\Street::getSelectedStreet($model->street):false;
 								echo Html::hiddenInput('street_hidden', $model->street, ['id'=>'street_hidden']);
@@ -125,19 +119,22 @@ use yii\bootstrap\ActiveForm;
 									'pluginOptions'=>[
 										'depends'=>['product-city','product-district'],
 										'initialize'=>!$model->isNewRecord?true:false,
-										'placeholder'=> Yii::t('product', 'Select Street'),
+										'placeholder'=> Yii::t('product', 'Street'),
 										'url'=>  \yii\helpers\Url::to(['/product/get-street']),
 										'params'=>['street_hidden']
 									],
 									'pluginEvents' => [
-										"select2-selected"=>"function() {console.log('select2-selecting street',this.value); Utils.changeAddress('product',this); }",
-										"select2-removed" => "function() {console.log('select2-removed-str'); Utils.changeAddress('product',this,2); }",
+										"select2:select"=>"function() {console.log('select2-selecting street',this.value); Utils.changeAddress('product',this); }",
+										"select2:unselect" => "function() {console.log('select2-removed-str'); Utils.changeAddress('product',this,2); }",
 			//							"depdrop.afterChange"=>"function(event, id, value) { Utils.changeAddress('product');}",
 									]
 								]);
 								?>
 							</div>
-							<div class="col-sm-8">
+							
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
 								<?php
 								$project = $model->getProjectForProduct();
 								if($project){
@@ -153,13 +150,13 @@ use yii\bootstrap\ActiveForm;
 									'pluginOptions'=>[
 										'depends'=>['product-city','product-district'],
 										'initialize'=>!$model->isNewRecord?true:false,
-										'placeholder'=> Yii::t('product', 'Select Project'),
+										'placeholder'=> Yii::t('product', 'Project'),
 										'url'=>  \yii\helpers\Url::to(['/product/get-project']),
 										'params'=>['project_id_hidden']
 									],
 									'pluginEvents' => [
-										"select2-selected"=>"function() {console.log('select2-selecting project_id',this.value); Utils.changeAddress('product',this); }",
-										"select2-removed" => "function() {console.log('select2-pro'); Utils.changeAddress('product',this,2); }",
+										"select2:select"=>"function() {console.log('select2-selecting project_id',this.value); Utils.changeAddress('product',this); }",
+										"select2:unselect" => "function() {console.log('select2-pro'); Utils.changeAddress('product',this,2); }",
 			//							"depdrop.afterChange"=>"function(event, id, value) { Utils.changeAddress('product');}",
 									]
 								]);
@@ -176,7 +173,7 @@ use yii\bootstrap\ActiveForm;
 							<div class="col-sm-4">
 								 <?php // echo $form->field($model, 'price_type')->textInput() ?>
 								<?php
-								$selectedPriceType= common\components\MasterValues::itemByValue($model->product_type == 1?'product_type_sale':'product_type_rent', $model->price_type,true);
+								$selectedPriceType= common\components\MasterValues::itemByValue($model->product_type == 1?'price_type_sale':'price_type_rent', $model->price_type,true);
 								echo Html::hiddenInput('price_type_hidden', $model->price_type, ['id'=>'price_type_hidden']);
 								echo $form->field($model, 'price_type')->widget(kartik\depdrop\DepDrop::classname(), [
 									'type'=>kartik\depdrop\DepDrop::TYPE_SELECT2,
@@ -185,7 +182,7 @@ use yii\bootstrap\ActiveForm;
 									'pluginOptions'=>[
 										'depends'=>['product-product_type'],
 										'initialize'=>true,
-										'placeholder'=> Yii::t('product', 'Select a price type'),
+										'placeholder'=> Yii::t('product', 'Price Type'),
 										'url'=>  \yii\helpers\Url::to(['/product/get-price-type-list']),
 										'params'=>['price_type_hidden']
 									]
@@ -203,7 +200,7 @@ use yii\bootstrap\ActiveForm;
 					<?php echo Html::hiddenInput('Product[lat]', $model->lat,['id'=>'product-lat']) ?>
 					<?php echo Html::hiddenInput('Product[lng]', $model->lng,['id'=>'product-lng']) ?>					
 					<?php echo thuongqbd\googlemap\GoogleMapWidget::widget(
-						['key'=>'AIzaSyAmcDnXsTSW-vfuQm6Be91Rz4GA1fa4s7U','lat'=>21.0295818,'lng'=>105.8504133,'height'=>'355px']
+						['lat'=>$model->lat,'lng'=>$model->lng,'height'=>'430px','resultContainers'=>["lat"=>"product-lat","lng"=>"product-lng","address"=>""]]
 					)?>
 				</div>
 			</div>			
@@ -268,7 +265,7 @@ use yii\bootstrap\ActiveForm;
 						<div class="col-sm-6">
 							<?= $form->field($model, 'direction')->widget(\kartik\select2\Select2::classname(), [
 								'data' => common\components\MasterValues::listItemByCode('direction'),
-								'options' => ['placeholder' => 'Select a direction ...'],
+								'options' => ['placeholder' => Yii::t('product', 'Direction')],
 								'pluginOptions' => [
 									'allowClear' => true
 								],
@@ -277,7 +274,7 @@ use yii\bootstrap\ActiveForm;
 						<div class="col-sm-6">
 							<?= $form->field($model, 'balcony_direction')->widget(\kartik\select2\Select2::classname(), [
 								'data' => common\components\MasterValues::listItemByCode('direction'),
-								'options' => ['placeholder' => 'Select a direction ...'],
+								'options' => ['placeholder' => Yii::t('product', 'Balcony Direction')],
 								'pluginOptions' => [
 									'allowClear' => true
 								],

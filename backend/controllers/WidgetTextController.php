@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 /**
  * WidgetTextController implements the CRUD actions for WidgetText model.
  */
-class WidgetTextController extends \common\components\Controller
+class WidgetTextController extends \backend\components\Controller
 {
     public function behaviors()
     {

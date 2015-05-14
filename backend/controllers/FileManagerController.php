@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-class FileManagerController extends \common\components\Controller
+class FileManagerController extends \backend\components\Controller
 {
     public function actionIndex()
     {

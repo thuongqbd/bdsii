@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 /**
  * PageController implements the CRUD actions for Page model.
  */
-class PageController extends \common\components\Controller
+class PageController extends \backend\components\Controller
 {
     public function behaviors()
     {

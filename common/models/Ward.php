@@ -54,7 +54,7 @@ class Ward extends \common\components\ActiveRecord
     }
 	
 	public static function getWardList($location,$wardId=null) {
-		$key = 'ward_prov'.$location['province_id'].'_dist'.$location['district_id'];
+		$key = 'ward_prov_'.Yii::$app->language.'_'.$location['province_id'].'_dist'.$location['district_id'];
 		$model = \Yii::$app->cache->get($key);
 		if ($model === false){
 			$model = self::findAll($location);
@@ -66,7 +66,7 @@ class Ward extends \common\components\ActiveRecord
 		$out = ['output'=>[],'selected'=>''];
 		foreach ($model as $value) {
 			$tmp['id'] = $value->id;
-			$tmp['name'] = substr(\Yii::$app->language, 0,2) != 'vi'?$value->prefix.' '.$value->name:$value->prefix_en.' '.$value->name_en;
+			$tmp['name'] = substr(\Yii::$app->language, 0,2) == 'vi'?$value->prefix.' '.$value->name:$value->prefix_en.' '.$value->name_en;
 			$out['output'][] = $tmp;
 		}
 		if($wardId)
@@ -76,7 +76,6 @@ class Ward extends \common\components\ActiveRecord
 	
 	public static function getSelectedWard($wardId) {
 		$model = self::findOne(['id' => $wardId]);
-		$justStripDiacritic = substr(\Yii::$app->language, 0,2) != 'vi'?true:false;
-		return $model?[$model->id=>$justStripDiacritic?\common\components\Utils::stripUnicode ($model->name,true):$model->name]:[];
+		return $model?[$model->id=>substr(\Yii::$app->language, 0,2) == 'vi'?$model->name:$model->name_en]:[];
 	}
 }

@@ -17,7 +17,7 @@ use Yii;
 use yii\filters\VerbFilter;
 use yii\imagine\Image;
 
-class SignInController extends \common\components\Controller
+class SignInController extends \backend\components\Controller
 {
 
     public $defaultAction = 'login';

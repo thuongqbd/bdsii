@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 /**
  * MasterValueController implements the CRUD actions for MasterValue model.
  */
-class MasterValueController extends \common\components\Controller
+class MasterValueController extends \backend\components\Controller
 {
     public function behaviors()
     {

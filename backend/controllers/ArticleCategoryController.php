@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 /**
  * ArticleCategoryController implements the CRUD actions for ArticleCategory model.
  */
-class ArticleCategoryController extends \common\components\Controller
+class ArticleCategoryController extends \backend\components\Controller
 {
     public function behaviors()
     {

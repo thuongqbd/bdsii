@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 /**
  * WidgetMenuController implements the CRUD actions for WidgetMenu model.
  */
-class WidgetMenuController extends \common\components\Controller
+class WidgetMenuController extends \backend\components\Controller
 {
     public function behaviors()
     {

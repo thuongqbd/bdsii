@@ -12,7 +12,11 @@ return [
         ['pattern'=>'article/<slug>', 'route'=>'article/view'],
 		
 		['pattern'=>'<slug>-pd<id>', 'route'=>'filter/view'],
-		
+		['pattern'=>'<slug>-st<street_id>-dt<district_id>-prv<province_id>', 'route'=>'filter/street'],
+		['pattern'=>'<slug>-wd<ward_id>-dt<district_id>-prv<province_id>', 'route'=>'filter/ward'],
+		['pattern'=>'<slug>-prj<project_id>-dt<district_id>-prv<province_id>', 'route'=>'filter/project'],
+		['pattern'=>'<slug>-dt<id>', 'route'=>'filter/district'],
+		['pattern'=>'<slug>-prv<id>', 'route'=>'filter/province'],
         // Api
         ['class' => 'yii\rest\UrlRule', 'controller' => 'api/v1/article', 'only' => ['index', 'view', 'options']],
         ['class' => 'yii\rest\UrlRule', 'controller' => 'api/v1/user', 'only' => ['index', 'view', 'options']],

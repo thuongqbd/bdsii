@@ -1,10 +1,34 @@
 <?php
 
-namespace common\components;
+namespace frontend\components;
 
 use Yii;
 
 class Controller extends \yii\web\Controller{
+	
+	public function beforeAction($action)
+    {
+        if(isset($_POST['Product'])){
+			$post = $_POST['Product'];
+			if(isset($post['project_id'])){
+				$url = "";
+			}elseif(isset ($post['street'])){
+				$url = "";
+			}elseif(isset ($post['ward'])){
+				
+			}elseif(isset ($post['district'])){
+				
+			}elseif(isset ($post['city'])){
+				
+			}else{
+				
+			}
+//			$url = \yii\helpers\Url::to(['filter/street','slug'=>'hellocopa','street_id'=>1,'district_id'=>2,'province_id'=>3]);
+//			$this->redirect($url,302);
+			var_dump($_POST);die;
+		}
+		return parent::beforeAction($action);
+    }
 		
 	public function actionGetDistrict() {
 		$out = [];

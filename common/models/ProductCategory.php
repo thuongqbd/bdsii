@@ -105,7 +105,7 @@ class ProductCategory extends ActiveRecord
             'title' => Yii::t('product_category', 'Title'),
             'slug' => Yii::t('product_category', 'Slug'),
             'parent_id' => Yii::t('product_category', 'Parent ID'),
-            'product_type' => Yii::t('product_category', 'Product Type'),
+            'product_type' => Yii::t('product_category', 'Type'),
             'description' => Yii::t('common', 'Description'),
             'keyword' => Yii::t('common', 'Keyword'),
             'thumbnail' => Yii::t('product_category', 'Thumbnail'),

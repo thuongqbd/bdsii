@@ -16,6 +16,11 @@ use yii\bootstrap\NavBar;
 	<meta http-equiv="Content-Type" content="text/html; charset=<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?= Html::encode($this->title) ?></title>
+	<script>
+		var curLang = '<?php echo substr(Yii::$app->language, 0,2)?>';
+		var baseUrl = '<?php echo Yii::$app->urlManagerFrontend->baseUrl?>';
+		var message = <?php echo json_encode(\frontend\components\JsResources::jsMessage()); ?>;
+	</script>
     <?php $this->head() ?>
     <?= Html::csrfMetaTags() ?>
 </head>

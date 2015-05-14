@@ -53,10 +53,19 @@ var App = {
 	searchBoxInit:function(){
 		$('.product-type-tab').on('click',function(event){
 			console.log(listCate[$(this).data('value')]);
+			
+			//change value for product cate
 			$("#product-product_cate").html("");
 			$("#product-product_cate").select2({
 				data: listCate[$(this).data('value')],
-				"theme":"krajee","placeholder":"Select a product cate","language":"vi","allowClear": true
+				"theme":"krajee","placeholder":message.product_cate,"language":curLang,"allowClear": true
+			  });
+			 
+			//change value for price
+			$("#product-price").html("");
+			$("#product-price").select2({
+				data: listPriceType[$(this).data('value')],
+				"theme":"krajee","placeholder":message.price,"language":curLang,"allowClear": true
 			  });
 			  
 			$('.product-type-tab').removeClass('active');

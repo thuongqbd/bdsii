@@ -51,7 +51,7 @@ class Province extends \common\components\ActiveRecord
     }
 	
 	public static function getProvinceList() {
-		$key = 'province';
+		$key = 'province_'.Yii::$app->language;
 		$model = \Yii::$app->cache->get($key);
 		if ($model === false){
 			$model = self::find()->orderBy('order')->all();
@@ -62,7 +62,7 @@ class Province extends \common\components\ActiveRecord
 		}
 		$out = [];
 		foreach ($model as $value) {
-			$out[$value->id] = substr(\Yii::$app->language, 0,2) != 'vi'? $value->name:$value->name_en;
+			$out[$value->id] = substr(\Yii::$app->language, 0,2) == 'vi'? $value->name:$value->name_en;
 		}
 		return $out;
 	}

@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 /**
  * KeyStorageController implements the CRUD actions for KeyStorageItem model.
  */
-class KeyStorageController extends \common\components\Controller
+class KeyStorageController extends \backend\components\Controller
 {
     public function behaviors()
     {

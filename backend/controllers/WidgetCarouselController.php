@@ -15,7 +15,7 @@ use yii\web\UploadedFile;
 /**
  * WidgetCarouselController implements the CRUD actions for WidgetCarousel model.
  */
-class WidgetCarouselController extends \common\components\Controller
+class WidgetCarouselController extends \backend\components\Controller
 {
     public function behaviors()
     {

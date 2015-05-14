@@ -8,7 +8,8 @@ use yii\widgets\ActiveForm;
 /* @var $form yii\bootstrap\ActiveForm */
 ?>
 <script>
-	var listCate = JSON.parse('<?php echo json_encode($jsonCate)?>');
+	var listCate = JSON.parse('<?php echo $jsonCate?>');
+	var listPriceType = JSON.parse('<?php echo $jsonPriceType?>');
 </script>
 <div class="box search mt40 mb30">
 	<?php $form = ActiveForm::begin(); ?>
@@ -27,7 +28,7 @@ use yii\widgets\ActiveForm;
 				echo Html::hiddenInput('Product[product_cate]', $model->product_cate, ['id'=>'product_cate_hidden']);
 				echo $form->field($model, 'product_cate')->label(false)->widget(\kartik\select2\Select2::classname(), [
 					'data' => $listCate["sale"],
-					'options' => ['placeholder' =>  Yii::t('product', 'Select a product cate')],
+					'options' => ['placeholder' =>  Yii::t('product', 'Category')],
 					'theme'=>'krajee',
 					'pluginOptions'=>['allowClear'=>true]
 //					'pluginEvents' => [
@@ -38,7 +39,7 @@ use yii\widgets\ActiveForm;
 			<li class="item">
 				<?= $form->field($model, 'city')->label(false)->widget(\kartik\select2\Select2::classname(), [
 					'data' => common\models\Province::getProvinceList(),
-					'options' => ['placeholder' =>  Yii::t('product', 'Select City/Province')],
+					'options' => ['placeholder' =>  Yii::t('product', 'City/Province')],
 					'theme'=>'krajee',
 					'pluginOptions'=>['allowClear'=>true]
 //					'pluginEvents' => [
@@ -57,7 +58,7 @@ use yii\widgets\ActiveForm;
 //						'options' => ['placeholder' =>  Yii::t('product', 'Select District')],
 						'pluginOptions'=>[
 							'depends'=>['product-city'],
-							'placeholder' =>  Yii::t('product', 'Select District'),
+							'placeholder' =>  Yii::t('product', 'District'),
 							'url'=>  \yii\helpers\Url::to(['/site/get-district']),
 							'params'=>['district_hidden']
 						],
@@ -70,8 +71,9 @@ use yii\widgets\ActiveForm;
 			</li>
 			<li class="item">
 				<?= $form->field($model, 'area')->label(false)->widget(\kartik\select2\Select2::classname(), [
-					'data' => [],
+					'data' => common\components\MasterValues::listItemByCode('search_area'),
 					'options' => ['placeholder' =>  Yii::t('product', 'Area')],
+					'pluginOptions'=>['allowClear'=>true],
 					'theme'=>'krajee',
 //					'pluginEvents' => [
 //						"select2:select"=>"function() {console.log('select2-selecting city',this.value);Utils.changeAddress('product',this);}",
@@ -80,8 +82,9 @@ use yii\widgets\ActiveForm;
 			</li>
 			<li class="item">
 				<?= $form->field($model, 'price')->label(false)->widget(\kartik\select2\Select2::classname(), [
-					'data' => [],
+					'data' => $listPriceType['sale'],
 					'options' => ['placeholder' =>  Yii::t('product', 'Price')],
+					'pluginOptions'=>['allowClear'=>true],
 					'theme'=>'krajee',
 //					'pluginEvents' => [
 //						"select2:select"=>"function() {console.log('select2-selecting city',this.value);Utils.changeAddress('product',this);}",
@@ -102,11 +105,12 @@ use yii\widgets\ActiveForm;
 							echo $form->field($model, 'ward')->label(false)->widget(kartik\depdrop\DepDrop::classname(), [
 								'type'=>kartik\depdrop\DepDrop::TYPE_SELECT2,
 								'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
-								'options' => ['placeholder'=> Yii::t('product', 'Select Ward'),],
+//								'options' => ['placeholder'=> Yii::t('product', 'Select Ward'),],
 								'data'=>  $selectedWard?$selectedWard:[],
 								'pluginOptions'=>[
 									'depends'=>['product-city','product-district'],
-									'initialize'=>!$model->isNewRecord?true:false,							
+									'initialize'=>true,
+									'placeholder' =>  Yii::t('product', 'Ward'),
 									'url'=>  \yii\helpers\Url::to(['/site/get-ward']),
 									'params'=>['ward_hidden']
 								],
@@ -128,7 +132,7 @@ use yii\widgets\ActiveForm;
 							'pluginOptions'=>[
 								'depends'=>['product-city','product-district'],
 								'initialize'=>!$model->isNewRecord?true:false,
-								'placeholder'=> Yii::t('product', 'Select Street'),
+								'placeholder'=> Yii::t('product', 'Street'),
 								'url'=>  \yii\helpers\Url::to(['/site/get-street']),
 								'params'=>['street_hidden']
 							],
@@ -151,7 +155,7 @@ use yii\widgets\ActiveForm;
 							'pluginOptions'=>[
 								'depends'=>['product-city','product-district'],
 								'initialize'=>!$model->isNewRecord?true:false,
-								'placeholder'=> Yii::t('product', 'Select Project'),
+								'placeholder'=> Yii::t('product', 'Project'),
 								'url'=>  \yii\helpers\Url::to(['/site/get-project']),
 								'params'=>['project_id_hidden']
 							],
@@ -165,8 +169,9 @@ use yii\widgets\ActiveForm;
 					</li>
 					<li class="item">
 						<?= $form->field($model, 'room_number')->label(false)->widget(\kartik\select2\Select2::classname(), [
-							'data' => [],
+							'data' => common\components\MasterValues::listItemByCode('search_room_number'),
 							'options' => ['placeholder' =>  Yii::t('product', 'Room Number')],
+							'pluginOptions'=>['allowClear'=>true],
 							'theme'=>'krajee',
 		//					'pluginEvents' => [
 		//						"select2:select"=>"function() {console.log('select2-selecting city',this.value);Utils.changeAddress('product',this);}",
@@ -175,8 +180,9 @@ use yii\widgets\ActiveForm;
 					</li>
 					<li class="item">
 						<?= $form->field($model, 'direction')->label(false)->widget(\kartik\select2\Select2::classname(), [
-							'data' => [],
+							'data' => common\components\MasterValues::listItemByCode('direction'),
 							'options' => ['placeholder' =>  Yii::t('product', 'Direction')],
+							'pluginOptions'=>['allowClear'=>true],
 							'theme'=>'krajee',
 		//					'pluginEvents' => [
 		//						"select2:select"=>"function() {console.log('select2-selecting city',this.value);Utils.changeAddress('product',this);}",
@@ -184,10 +190,10 @@ use yii\widgets\ActiveForm;
 						]);?>
 					</li>
 					<li class="item" style="min-width:0;width:128px;margin-right:0">
-						<a id="btnSearch" class="bt-seaerch bg-orange nobor cursor white bold uppercase font15 font-roboto width-full" rel="nofollow" href="javascript:__doPostBack('ctl00$PH_Container$BoxSearch$btnSearch','')"> 
+						<button id="btnSearch" type="submit" class="bt-seaerch bg-orange nobor cursor white bold uppercase font15 font-roboto width-full" rel="nofollow" > 
 						<s class="ic-search fl mt2 mr5"></s>
 						<span class="mt2 fl">Tìm kiếm</span>
-						</a>
+						</button>
 					</li>
 				</ul>
 			</li>

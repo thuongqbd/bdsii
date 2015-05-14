@@ -6,7 +6,7 @@ use Yii;
 /**
  * Site controller
  */
-class SiteController extends \common\components\Controller
+class SiteController extends \backend\components\Controller
 {
     /**
      * @inheritdoc

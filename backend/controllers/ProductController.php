@@ -11,7 +11,7 @@ use yii\filters\VerbFilter;
 /**
  * ProductController implements the CRUD actions for Product model.
  */
-class ProductController extends \common\components\Controller
+class ProductController extends \backend\components\Controller
 {
     public function behaviors()
     {

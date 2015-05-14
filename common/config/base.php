@@ -18,7 +18,7 @@ $config = [
         ],
 
         'cache' => [
-            'class' => 'yii\caching\ApcCache',
+            'class' => 'yii\caching\DummyCache',
         ],
 //		'fileCache' => [
 //            'class' => 'yii\caching\FileCache',
