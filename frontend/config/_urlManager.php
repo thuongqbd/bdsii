@@ -1,6 +1,6 @@
 <?php
 return [
-    'class'=>'yii\web\UrlManager',
+    'class'=>'common\components\UrlManager',
     'enablePrettyUrl'=>true,
     'showScriptName'=>false,
     'rules'=> [

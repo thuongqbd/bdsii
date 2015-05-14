@@ -48,12 +48,20 @@ class District extends \common\components\ActiveRecord
     }
 	
 	public static function getDistrictList($provinceId,$selectedId = null) {
-		$model = self::findAll(['province_id' => $provinceId]);
-		$justStripDiacritic = substr(\Yii::$app->language, 0,2) != 'vi'?true:false;
+
+		$key = 'district_prov'.$provinceId;
+		$model = \Yii::$app->cache->get($key);
+		if ($model === false){
+			$model = self::findAll(['province_id' => $provinceId]);
+			if($model){
+				 \Yii::$app->cache->set($key, $model,  \Yii::$app->params['cacheExpire']['location']);
+			}
+			
+		}
 		$out = ['output'=>[],'selected'=>''];
 		foreach ($model as $value) {
 			$tmp['id'] = $value->id;
-			$tmp['name'] = $justStripDiacritic?\common\components\Utils::stripUnicode ($value->name,true):$value->name;
+			$tmp['name'] = substr(\Yii::$app->language, 0,2) != 'vi'?$value->name:$value->name_en;
 			$out['output'][] = $tmp;
 		}
 		if($selectedId)

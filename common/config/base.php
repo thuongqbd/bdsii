@@ -18,9 +18,11 @@ $config = [
         ],
 
         'cache' => [
-            'class' => 'yii\caching\DummyCache',
+            'class' => 'yii\caching\ApcCache',
         ],
-
+//		'fileCache' => [
+//            'class' => 'yii\caching\FileCache',
+//        ],
         'formatter'=>[
             'class'=>'yii\i18n\Formatter'
         ],
@@ -102,10 +104,11 @@ $config = [
                     'enableCaching' => YII_ENV_DEV,
                     'cachingDuration' => 3600,
 					'forceTranslation' => true
-                ],
-                
-
+                ],               
             ],
+//			'as missingTranslation' =>function(){
+//
+//			}    
         ],
 
         'fileStorage' => [
@@ -125,7 +128,13 @@ $config = [
         'keyStorage' => [
             'class' => 'common\components\keyStorage\KeyStorage'
         ],
-
+		'urlManager' => [
+			'class'=>'common\components\UrlManager',
+			'languages' => ['vi','en'],
+			'enablePrettyUrl'=>true,
+			'showScriptName'=>false,
+			'enableLanguagePersistence' => false,
+		],
         'urlManagerBackend' => \yii\helpers\ArrayHelper::merge(
             [
                 'hostInfo' => Yii::getAlias('@backendUrl')
@@ -145,19 +154,7 @@ $config = [
             require(Yii::getAlias('@storage/config/_urlManager.php'))
         )
     ],
-    'params' => [
-//        'adminEmail' => getenv('ADMIN_EMAIL'),
-//        'robotEmail' => getenv('ROBOT_EMAIL'),
-		'adminEmail' => 'thuongqbd@gmail.com',
-        'robotEmail' => 'thuongqbd@gmail.com',
-        'availableLocales'=>[
-			'vi'=>'Tiếng Việt',
-            'en'=>'English (US)',		
-        ],
-		'defaultLanguage' => 'vi',
-		'defaultLatLng'=>['lat'=>21.0295818,'lng'=>105.8504133],
-		'googleMapApiKey' =>'AIzaSyAmcDnXsTSW-vfuQm6Be91Rz4GA1fa4s7U',
-    ],
+    'params' =>  require('params.php'),
 //	'on beforeAction' => function ($event) {
 //
 //    },

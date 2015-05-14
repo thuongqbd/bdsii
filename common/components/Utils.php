@@ -17,7 +17,6 @@ class Utils {
 			'o' => 'ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ',
 			'u' => 'ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự',
 			'y' => 'ý|ỳ|ỷ|ỹ|ỵ',
-			'D' => 'Đ',
 		);
 		if($justStripDiacritic)
 			$ui = "";
@@ -38,6 +37,18 @@ class Utils {
 	public static function getSeoUrl($sTitle) {
 		$sTitle = rawurldecode(self::stripUnicode($sTitle));
 		return $sTitle;
+	}
+	
+	public static function readCache($className,$condition,$key,$duration,$depen){
+		$data = \Yii::$app->cache->get($key);
+		if ($data === false){
+			$model = new \Reflection($className);
+			$model->findAll($condition);
+			if($model){
+				 \Yii::$app->cache->set($key, $model,$duration,$depen);
+			}
+			
+		}
 	}
 }
 

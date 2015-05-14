@@ -51,11 +51,18 @@ class Province extends \common\components\ActiveRecord
     }
 	
 	public static function getProvinceList() {
-		$model = self::find()->orderBy('order')->all();
-		$justStripDiacritic = substr(\Yii::$app->language, 0,2) != 'vi'?true:false;
+		$key = 'province';
+		$model = \Yii::$app->cache->get($key);
+		if ($model === false){
+			$model = self::find()->orderBy('order')->all();
+			if($model){
+				 \Yii::$app->cache->set($key, $model,  \Yii::$app->params['cacheExpire']['location']);
+			}
+			
+		}
 		$out = [];
 		foreach ($model as $value) {
-			$out[$value->id] = $justStripDiacritic?\common\components\Utils::stripUnicode ($value->name,true):$value->name;
+			$out[$value->id] = substr(\Yii::$app->language, 0,2) != 'vi'? $value->name:$value->name_en;
 		}
 		return $out;
 	}

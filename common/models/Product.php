@@ -72,7 +72,7 @@ class Product extends ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'slug', 'description', 'product_type', 'product_cate', 'city', 'district', 'address', 'ct_mobile', 'start_date', 'end_date'], 'required'],
+            [['title', 'slug', 'description', 'product_type', 'product_cate', 'city', 'district', 'address', 'ct_mobile', 'start_date', 'end_date'], 'required', 'except'=>'frontendSearch'],
             [['description', 'interior'], 'string'],
             [['product_type', 'product_cate', 'city', 'district', 'ward', 'street', 'project_id', 'price', 'price_type', 'direction', 'balcony_direction', 'floor_number', 'room_number', 'toilet_number', 'ct_phone', 'ct_mobile', 'approved', 'author_id','published', 'deleted', 'created_at', 'updated_at'], 'integer'],
             [['area', 'facade', 'entry_width'], 'number'],
@@ -131,7 +131,7 @@ class Product extends ActiveRecord
             'district' => Yii::t('common', 'District'),
             'ward' => Yii::t('common', 'Ward'),
             'street' => Yii::t('common', 'Street'),
-            'project_id' => Yii::t('product', 'Project ID'),
+            'project_id' => Yii::t('product', 'Project'),
             'area' => Yii::t('product', 'Area'),
             'price' => Yii::t('product', 'Price'),
             'price_type' => Yii::t('product', 'Price Type'),

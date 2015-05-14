@@ -54,12 +54,19 @@ class Ward extends \common\components\ActiveRecord
     }
 	
 	public static function getWardList($location,$wardId=null) {
-		$model = self::findAll($location);		
-		$justStripDiacritic = substr(\Yii::$app->language, 0,2) != 'vi'?true:false;
+		$key = 'ward_prov'.$location['province_id'].'_dist'.$location['district_id'];
+		$model = \Yii::$app->cache->get($key);
+		if ($model === false){
+			$model = self::findAll($location);
+			if($model){
+				 \Yii::$app->cache->set($key, $model,  \Yii::$app->params['cacheExpire']['location']);
+			}
+			
+		}	
 		$out = ['output'=>[],'selected'=>''];
 		foreach ($model as $value) {
 			$tmp['id'] = $value->id;
-			$tmp['name'] = $justStripDiacritic?\common\components\Utils::stripUnicode ($value->prefix.' '.$value->name,true):$value->prefix.' '.$value->name;
+			$tmp['name'] = substr(\Yii::$app->language, 0,2) != 'vi'?$value->prefix.' '.$value->name:$value->prefix_en.' '.$value->name_en;
 			$out['output'][] = $tmp;
 		}
 		if($wardId)

@@ -2,11 +2,11 @@
 return [
     'class'=>'common\components\UrlManager',
 //	 'class'=>'yii\web\UrlManager',
-	'languages' => ['vi','en'],
+//	'languages' => ['vi','en'],
     'enablePrettyUrl'=>true,
     'showScriptName'=>false,
 //	'enableDefaultLanguageUrlCode' => true,
-	'enableLanguagePersistence' => false,
+//	'enableLanguagePersistence' => false,
     'rules'=>[
 //        // url rules
 //	'<language>/<controller>/<action:\w+>/<id:\d+>' => '<controller>/<action>',

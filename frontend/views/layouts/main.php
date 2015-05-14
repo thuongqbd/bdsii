@@ -7,20 +7,17 @@ use yii\widgets\Breadcrumbs;
 
 $this->beginContent('@frontend/views/layouts/_base.php')
 ?>
-    <div class="container">
-
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-
-        <?php if(Yii::$app->session->hasFlash('alert')):?>
-            <?= \yii\bootstrap\Alert::widget([
-                'body'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'body'),
-                'options'=>ArrayHelper::getValue(Yii::$app->session->getFlash('alert'), 'options'),
-            ])?>
-        <?php endif; ?>
-
-        <?= $content ?>
-
-    </div>
+	<div id="container">
+		<div class="main bg_white pd20 clearfix">
+			<?php echo common\components\widgets\SearchBox::widget()?>
+			<div class="w-650 fl" id="leftPanel">
+				<?= $content ?>
+			</div>
+			<div class="w-280 fr" id="rightPanel">
+				<?php echo common\components\widgets\HotProjects::widget()?>
+			</div>
+			<div class="clear"></div>
+			
+		</div>
+	</div>	
 <?php $this->endContent() ?>
