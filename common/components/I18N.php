@@ -34,7 +34,7 @@ class I18N extends \yii\i18n\I18N
         $messageSource = $this->getMessageSource($category);
         $translation = $messageSource->translate($category, $message, $language);
         if ($translation === false) {
-			//$this->insertNewMessage($category, $message, $language);
+			$this->insertNewMessage($category, $message, $language);
             return $this->format($message, $params, $messageSource->sourceLanguage);
         } else {
             return $this->format($translation, $params, $language);
@@ -42,18 +42,25 @@ class I18N extends \yii\i18n\I18N
     }
 	
 	private function insertNewMessage($category, $message, $language){
-		$this->getMessageSource($category);
-		if(isset($this->translations[$category]) && get_class($this->translations[$category]) == 'yii\i18n\DbMessageSource'){
-			$db = $this->translations[$category]->db;
+
+		if(array_key_exists($category, $this->translations)){
+			$translations = $this->translations[$category];
+		}else{
+			$translations = $this->translations['*'];
+		}
+		if(get_class($translations) == 'yii\i18n\DbMessageSource'){
+			
+			$db = $translations->db;
 			$checkExits = $db->createCommand('SELECT * FROM {{%i18n_source_message}} WHERE category LIKE "'.$category.'" AND message LIKE "'.$message.'"')->queryOne();
 			if(!$checkExits){
 				$db->createCommand()
                             ->insert('{{%i18n_source_message}}', ['category' => $category, 'message' => $message])->execute();
 				$lastId = $db->getLastInsertID($db->driverName == 'pgsql' ? 'i18n_source_message_id_seq' : null);
-	//			var_dump($lastId,$category, $message, $language);
-
-				$db->createCommand()
-							->insert('{{%i18n_message}}', ['id' => $lastId, 'language' => substr($language, 0, 2), 'translation'=>$message])->execute();
+				foreach (\Yii::$app->params['availableLocales'] as $key => $value) {
+					$db->createCommand()
+							->insert('{{%i18n_message}}', ['id' => $lastId, 'language' => $key, 'translation'=>$message])->execute();
+				}
+				
 			}
 			
 		}

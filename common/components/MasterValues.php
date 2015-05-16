@@ -51,7 +51,6 @@ class MasterValues
 			'order'=>'`order`'
 		]
 		);
-//		var_dump($list=ArrayHelper::map($model,'value','label'));
 		return ArrayHelper::map($model,'value','label');	
 	}
 	
@@ -75,7 +74,46 @@ class MasterValues
 		}else{
 			return ;
 		}
-		//return $model->label;
+	}
+	
+	public static function descByValue($code, $value,$forDropList = false, $locale=null){
 
+		$model = MasterValue::findOne(
+		[
+			'locale' => substr(($locale!=null)?$locale:Yii::$app->language, 0,2),
+			'value_code'=>$code,
+			'value'=> $value
+		],[
+			'order'=>'`order`'
+		]
+		);
+		
+		if(isset($model->description)){
+			if($forDropList)
+				return [$model->value=>$model->description];
+			else
+				return $model->description;
+		}else{
+			return ;
+		}
+	}
+	
+	public static function itemByDesc($code, $desc, $locale=null){
+
+		$model = MasterValue::findOne(
+		[
+			'locale' => substr(($locale!=null)?$locale:Yii::$app->language, 0,2),
+			'value_code'=>$code,
+			'description'=> $desc
+		],[
+			'order'=>'`order`'
+		]
+		);
+		
+		if(isset($model->value)){			
+				return $model->value;
+		}else{
+			return ;
+		}
 	}
 }

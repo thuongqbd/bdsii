@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * I18nSourceMessageController implements the CRUD actions for I18nSourceMessage model.
  */
-class I18nSourceMessageController extends \common\components\Controller
+class I18nSourceMessageController extends \backend\components\Controller
 {
     public function behaviors()
     {

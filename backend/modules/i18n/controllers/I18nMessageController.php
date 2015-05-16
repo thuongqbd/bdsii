@@ -15,7 +15,7 @@ use yii\filters\VerbFilter;
 /**
  * I18nMessageController implements the CRUD actions for I18nMessage model.
  */
-class I18nMessageController extends \common\components\Controller
+class I18nMessageController extends \backend\components\Controller
 {
     public function behaviors()
     {

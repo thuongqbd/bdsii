@@ -39,16 +39,38 @@ class Utils {
 		return $sTitle;
 	}
 	
-	public static function readCache($className,$condition,$key,$duration,$depen){
-		$data = \Yii::$app->cache->get($key);
-		if ($data === false){
-			$model = new \Reflection($className);
-			$model->findAll($condition);
-			if($model){
-				 \Yii::$app->cache->set($key, $model,$duration,$depen);
-			}
-			
+	public static function sub_string($str, $len = 50, $more = '...') {
+		if ($str == "" || $str == NULL || is_array($str) || mb_strlen($str) < $len) {
+			return $str;
 		}
+		$is_more = false;
+		$lastspace = (strrpos($str, " ", 0));
+		$counword = str_word_count($str);
+		if ($lastspace === false && $counword <= $len)
+			$retval = $str;
+		else {
+			$words = explode(" ", $str);
+			$retval = implode(" ", array_splice($words, 0, $len));
+			$is_more = true;
+		}
+
+//		$retval = preg_replace("/[[:blank:]]+/", " ", $retval);
+		$retval .= ($is_more == true) ? $more : "";
+		return $retval;
 	}
+	
+	public static function checkExistImage($path,$base_url) {
+		
+		$a = explode(Yii::getAlias('@storageUrl'), $base_url);
+		$uploadDir = $a[1];
+		$imageFullPath = implode( array(Yii::getAlias('@storage'),'/web', $uploadDir,'/', $path));	
+//		var_dump($imageFullPath,urldecode($imageFullPath),file_exists(urldecode($imageFullPath)));die;
+		if (file_exists(urldecode($imageFullPath))) {
+			return true;
+		}
+		return false;
+	}
+	
+	
 }
 

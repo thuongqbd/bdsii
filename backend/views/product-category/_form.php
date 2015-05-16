@@ -21,27 +21,34 @@ use yii\bootstrap\ActiveForm;
 	<div class="row">
         <div class="col-sm-6">
 			<?php //echo $form->field($model, 'product_type')->dropDownList(common\components\MasterValues::listItemByCode('product_type'),['prompt'=>'Select...']) ?>
-			<?php echo $form->field($model, 'product_type')->radioList(
-					common\components\MasterValues::listItemByCode('product_type'),
-					[
-						'labelOptions'=>'radio-inline',
-						'item' => function($index, $label, $name, $checked, $value) {
-									$checked = $checked?'checked':'';
-                                    $return = '<label class="radio-inline">';
-                                    $return .= '<input type="radio" name="' . $name . '" value="' . $value . '" tabindex="3" '.$checked.'>';
-                                    $return .= '<span>' . ucwords($label) . '</span>';
-                                    $return .= '</label>';
-
-                                    return $return;
-                                }
-					]) ?>
+			<?= $form->field($model, 'product_type')->widget(\kartik\select2\Select2::classname(), [
+				'data' => common\components\MasterValues::listItemByCode('product_type'),
+				'options' => ['placeholder' => Yii::t('product', 'Type')],
+				'pluginOptions' => [
+					'allowClear' => true
+				],
+				'pluginEvents' => [
+//							"select2-selecting"=>"function() {console.log('select2-selecting',this.value);}",
+				]
+			]);?>
 		</div>
 		<div class="col-sm-6">
-			<?= $form->field($model, 'parent_id')->dropDownList(\yii\helpers\ArrayHelper::map(
-				$categories,
-				'category_id',
-				'title'
-			), ['prompt'=>  Yii::t('product_category','Select a parent')]) ?>
+			<?php
+//				$selectedCate= common\models\ProductCategory::getSelectedCate($model->parent_id);
+//				echo Html::hiddenInput('product_cate_parent_id', $model->parent_id, ['id'=>'product_cate_hidden']);
+//				echo $form->field($model, 'parent_id')->widget(kartik\depdrop\DepDrop::classname(), [
+//					'type'=>kartik\depdrop\DepDrop::TYPE_SELECT2,
+//					'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+//					'data'=>  $selectedCate?$selectedCate:[],
+//					'pluginOptions'=>[
+//						'depends'=>['product-category-product_type'],
+//						'initialize'=>true,
+//						'placeholder'=>Yii::t('product_category','Parent'),
+//						'url'=>  \yii\helpers\Url::to(['/product/get-parents-list']),
+//						'params'=>['product_cate_hidden']
+//					]
+//				]);
+				?>
 		</div>
 	</div>
     <?php echo $form->field($model, 'keyword')->textInput(['maxlength' => 255]) ?>

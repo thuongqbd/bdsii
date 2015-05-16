@@ -15,15 +15,15 @@ $(function() {
 	if($('.product-category-form').length){
 		
 		//get parents cate
-		var url = baseUrl + '/product-category/get-parents-list';
-		$('input[type="radio"][name="ProductCategory[product_type]"]').change(function(){
-			console.log($(this).val());
-			$.post(url,{'product_type':$(this).val(),'category_id':$('#productcategory-category_id').val()},function(result){
-               
-				console.log( $('#productcategory-parent_id').closest('.form-group').removeClass('has-success'));
-				 $('#productcategory-parent_id').replaceWith(result)
-            });
-		})
+//		var url = baseUrl + '/product-category/get-parents-list';
+//		$('input[type="radio"][name="ProductCategory[product_type]"]').change(function(){
+//			console.log($(this).val());
+//			$.post(url,{'product_type':$(this).val(),'category_id':$('#productcategory-category_id').val()},function(result){
+//               
+//				console.log( $('#productcategory-parent_id').closest('.form-group').removeClass('has-success'));
+//				 $('#productcategory-parent_id').replaceWith(result)
+//            });
+//		})
 	}
 	//END product-category-form
 	

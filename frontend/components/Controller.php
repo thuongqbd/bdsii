@@ -3,29 +3,89 @@
 namespace frontend\components;
 
 use Yii;
+use \common\components\MasterValues;
+use	\common\components\Utils;
+use	\yii\helpers\Url;
 
 class Controller extends \yii\web\Controller{
 	
 	public function beforeAction($action)
     {
+		
         if(isset($_POST['Product'])){
 			$post = $_POST['Product'];
-			if(isset($post['project_id'])){
-				$url = "";
-			}elseif(isset ($post['street'])){
-				$url = "";
-			}elseif(isset ($post['ward'])){
-				
-			}elseif(isset ($post['district'])){
-				
-			}elseif(isset ($post['city'])){
-				
-			}else{
-				
+			$firstParam = null;
+			$isCate = false;
+			if(!empty($post['product_cate'])){
+				$cate = \common\models\ProductCategory::find()
+						->where('category_id = :category_id',[':category_id'=>$post['product_cate']])
+						->andWhere('published = 1')->andWhere('deleted = 0')->one();
+				if($cate){
+					$firstParam = $cate->slug;
+					$isCate = true;
+				}
 			}
-//			$url = \yii\helpers\Url::to(['filter/street','slug'=>'hellocopa','street_id'=>1,'district_id'=>2,'province_id'=>3]);
-//			$this->redirect($url,302);
-			var_dump($_POST);die;
+			if(!$firstParam){
+				$firstParam = MasterValues::descByValue('product_type', $post['product_type']);
+			}
+			
+			if(!empty($post['project_id']) && !empty($post['city']) && !empty($post['district'])){
+				$model = \common\models\Project::find()->where(['id'=>$post['project_id'],'published'=>1,'deleted'=>0])->one();
+				if($model){
+					if($isCate){
+						$url = Url::to(['filter/project','cate'=> $firstParam,'slug'=>$model->slug,'id'=>$model->id]);
+					}else{						
+						$url = Url::to(['filter/project','type'=> $firstParam,'slug'=>$model->slug,'id'=>$model->id]);
+					}
+				}
+			}
+			elseif(!empty($post['street']) && !empty($post['city']) && !empty($post['district'])){
+				$model = \common\models\Street::find()->where(['province_id'=>$post['city'],'district_id'=>$post['district'],'id'=>$post['street']])->one();
+				if($model){
+					$prefix = Utils::stripUnicode($model->prefix);
+					if($isCate){
+						$url = Url::to(['filter/street','cate'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
+					}else{						
+						$url = Url::to(['filter/street','type'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
+					}
+				}
+			}
+			elseif(!empty($post['ward']) && !empty($post['city']) && !empty($post['district'])){
+				$model = \common\models\Ward::find()->where(['province_id'=>$post['city'],'district_id'=>$post['district'],'id'=>$post['ward']])->one();
+				if($model){				
+					$prefix = Utils::stripUnicode($model->prefix);
+					if($isCate){
+						$url = Url::to(['filter/ward','cate'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
+					}else{						
+						$url = Url::to(['filter/ward','type'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
+					}
+				}
+			}elseif(!empty($post['district']) && !empty($post['city'])){
+				$model = \common\models\District::find()->where(['province_id'=>$post['city'],'id'=>$post['district']])->one();
+				if($model){				
+					if($isCate){
+						$url = Url::to(['filter/district','cate'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
+					}else{						
+						$url = Url::to(['filter/district','type'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
+					}
+				}
+			}elseif(!empty($post['city'])){
+				$model = \common\models\Province::find()->where(['id'=>$post['city']])->one();
+				if($model){				
+					if($isCate){
+						$url = Url::to(['filter/province','cate'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
+					}else{						
+						$url = Url::to(['filter/province','type'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
+					}
+				}
+			}elseif($isCate){
+				$url = Url::to(['filter/category','cate'=> $firstParam]);
+			}else{
+				$url = Url::to(['filter/type','type'=> $firstParam]);
+			}
+
+			if(!empty($url))
+				$this->redirect($url,302);
 		}
 		return parent::beforeAction($action);
     }
@@ -144,7 +204,7 @@ class Controller extends \yii\web\Controller{
 					$params = $_POST['depdrop_params'];
 					$priceType = $params[0]; // get the value of input-type-1		
 				}
-				$listPriceType = MasterValues::listItemByCode($productType == 1?'product_type_sale':'product_type_rent');
+				$listPriceType = MasterValues::listItemByCode($productType == 1?'price_type_sale':'price_type_rent');
 				
 				if($listPriceType){
 					foreach ($listPriceType as $id => $title) {

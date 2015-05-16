@@ -17,8 +17,10 @@ class SearchBox extends \yii\base\Widget
      * @return string
      */
     public function run()
-    {
+    {		
+//		var_dump(\Yii::$app->requestedParams);
 		$model = new \frontend\models\Product();
+		$model->product_type = 1;
 		$modelCate = \common\models\ProductCategory::findAll(['published'=>1,'deleted'=>0],['order'=>'order_num']);
 		$listCate = [];
 		$jsonCate = [];

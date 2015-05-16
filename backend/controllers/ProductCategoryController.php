@@ -135,7 +135,6 @@ class ProductCategoryController extends \backend\components\Controller
 			'title'
 		), ['prompt'=>'Select...','id'=>'productcategory-parent_id','class'=>'form-control']);
 		echo $result;
-		\Yii::$app->end();
 	}
 	
 	/*

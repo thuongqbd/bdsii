@@ -1,7 +1,7 @@
 <?php
 
 namespace backend\components;
-
+use common\components\MasterValues;
 use Yii;
 
 class Controller extends \yii\web\Controller{
@@ -120,7 +120,7 @@ class Controller extends \yii\web\Controller{
 					$params = $_POST['depdrop_params'];
 					$priceType = $params[0]; // get the value of input-type-1		
 				}
-				$listPriceType = MasterValues::listItemByCode($productType == 1?'product_type_sale':'product_type_rent');
+				$listPriceType = MasterValues::listItemByCode($productType == 1?'price_type_sale':'price_type_rent');
 				
 				if($listPriceType){
 					foreach ($listPriceType as $id => $title) {

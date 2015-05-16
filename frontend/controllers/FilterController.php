@@ -3,11 +3,11 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\Product;
-use common\models\ProductSearch;
+
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-
+use yii\data\ActiveDataProvider;
+use \frontend\models\Product;
 /**
  * ProductController implements the CRUD actions for Product model.
  */
@@ -29,73 +29,78 @@ class FilterController extends \frontend\components\Controller
      * Lists all Product models.
      * @return mixed
      */
-    public function actionIndex()
+    private function filter($type=null,$cate=null,$province=null,$district=null,$ward=null,$street=null,$project=null,$page = 1)
     {
-        $searchModel = new ProductSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		
-		// validate if there is a editable input saved via AJAX
-		if (Yii::$app->request->post('hasEditable')) {
-			// instantiate your book model for saving
-			$id = Yii::$app->request->post('editableKey');
-			$model = Product::findOne($id);
-
-			// store a default json response as desired by editable
-			$out = \yii\helpers\Json::encode(['output'=>'', 'message'=>'']);
-
-			// fetch the first entry in posted data (there should 
-			// only be one entry anyway in this array for an 
-			// editable submission)
-			// - $posted is the posted data for Book without any indexes
-			// - $post is the converted array for single model validation
-			$post = [];
-			$posted = current($_POST['Product']);
-			$post['Product'] = $posted;
-			$k = [];
-			foreach ($post['Product'] as $key => $value) {
-				if($value && in_array($key, ['start_date','end_date'])){
-					$post['Product'][$key] = strtotime($value);
-					$k[] = $key;
-				}
-				
-			}
-			
-			// load model like any single model validation
-			if ($model->load($post)) {
-//				var_dump($k,$model->attributes);die;
-				// can save model or do something before saving model
-				$model->update(false,$k);
-
-				// custom output to return to be displayed as the editable grid cell
-				// data. Normally this is empty - whereby whatever value is edited by 
-				// in the input by user is updated automatically.
-				$output = '';
-
-				// specific use case where you need to validate a specific
-				// editable column posted when you have more than one 
-				// EditableColumn in the grid view. We evaluate here a 
-				// check to see if buy_amount was posted for the Book model
-//				if (isset($post['Product']['start_date'])) {
-//				   $output = strtotime($post['Product']['start_date']);
-//				} 
-
-				// similarly you can check if the name attribute was posted as well
-				// if (isset($posted['name'])) {
-				//   $output =  ''; // process as you need
-				// } 
-				$out = \yii\helpers\Json::encode(['output'=>$output, 'message'=>'']);
-			} 
-			// return ajax json encoded response and exit
-			echo $out;
-			return;
+		$condition = [];
+		if(!empty($type)){
+			$condition['product_type'] = \common\components\MasterValues::itemByDesc('product_type', $type);
 		}
-		
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+		if(!empty($cate))
+			$condition['product_cate'] = $cate;
+		if(!empty($province))
+			$condition['city'] = $province;
+		if(!empty($district))
+			$condition['district'] = $district;
+		if(!empty($ward))
+			$condition['ward'] = $ward;
+		if(!empty($street))
+			$condition['street'] = $street;
+		if(!empty($project))
+			$condition['project_id'] = $project;
+//		var_dump($condition);	
+        $dataProvider = new ActiveDataProvider([
+			'query' => Product::find()->where($condition),
+			'pagination' => [
+				'pageSize' => 20,
+			],
+		]);
+		return $this->render('filter',[
+			'dataProvider'=>$dataProvider,
+			'type'=>$type,
+			'cate'=>$cate,
+			'province'=>$province,
+			'district'=>$district,
+			'ward'=>$ward,
+			'street'=>$street,
+			'project'=>$project
+			]
+		);
     }
-
+	
+	public function actionType($type,$page = 1)
+    {
+		return $this->filter($type, null,null,null,null,null,null,$page);;
+    }
+	
+	public function actionCategory($cate,$page = 1)
+    {
+		return $this->filter(null, $cate,null,null,null,null,null,$page);
+    }
+	
+	public function actionProvince($type=null,$cate=null,$slug,$id,$page = 1)
+    {
+		return $this->filter($type, $cate,$id,null,null,null,null,$page);
+    }
+	
+	public function actionDistrict($type=null,$cate=null,$slug,$id,$page = 1)
+    {
+		return $this->filter($type, $cate,null,$id,null,null,null,$page);
+    }
+	
+	public function actionWard($type=null,$cate=null,$prefix="phuong",$slug,$id,$page = 1)
+    {
+		return $this->filter($type, $cate,null,null,$id,null,null,$page);
+    }
+	
+	public function actionStreet($type=null,$cate=null,$prefix="phuong",$slug,$id,$page = 1)
+    {
+		return $this->filter($type, $cate,null,null,null,$id,null,$page);
+    }
+	
+	public function actionProject($type=null,$cate=null,$slug,$id,$page = 1)
+    {
+		return $this->filter($type, $cate,null,null,null,null,$id,$page);
+    }
     /**
      * Displays a single Product model.
      * @param string $id
@@ -116,10 +121,5 @@ class FilterController extends \frontend\components\Controller
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
-    }
-	
-	public function actionStreet($slug,$street_id,$district_id,$province_id)
-    {
-        die('aaaaaaa');
     }
 }
