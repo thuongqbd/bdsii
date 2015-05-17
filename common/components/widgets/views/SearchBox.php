@@ -6,6 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Product */
 /* @var $form yii\bootstrap\ActiveForm */
+
 ?>
 <script>
 	var listCate = JSON.parse('<?php echo $jsonCate?>');
@@ -16,10 +17,9 @@ use yii\widgets\ActiveForm;
 	<?php echo Html::hiddenInput('Product[product_type]', $model->product_type, ['id'=>'product_type_hidden']);?>
 	<div class="title-tabs bor-bot-blue4 font-roboto position">
 		<ul class="type_bds clearfix">
-			<li class="font15 uppercase fl"><a rel="nofollow" data-value="1" class="product-type-tab active">BĐS bán</a></li>
-			<li class="font15 uppercase fl"><a rel="nofollow" data-value="2" class="product-type-tab" >BĐS cho thuê</a></li>
+			<li class="font15 uppercase fl"><a rel="nofollow" data-value="1" class="product-type-tab <?php echo $selectedTab==2?'':$selectedTab==1?'active':''?>">BĐS bán</a></li>
+			<li class="font15 uppercase fl"><a rel="nofollow" data-value="2" class="product-type-tab <?php echo $selectedTab==2?'active':''?>" >BĐS cho thuê</a></li>
 		</ul>
-		<img src="images/buiding-shadow.png" alt="dothidiaoc.com" class="buiding-shadow">
 	</div>
 	<div class="box-cont bor-left bor-right bor-bot box-shadow pd10">
 		<ul>			
@@ -54,7 +54,8 @@ use yii\widgets\ActiveForm;
 					echo $form->field($model, 'district')->label(false)->widget(kartik\depdrop\DepDrop::classname(), [
 						'type'=>kartik\depdrop\DepDrop::TYPE_SELECT2,
 						'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
-						'data'=>  $selectedDistrict?$selectedDistrict:[],
+						'data'=> isset($dataSelected['data']['district'])?$dataSelected['data']['district']:[],
+//						'data'=> [53=>'Quận 1'],
 //						'options' => ['placeholder' =>  Yii::t('product', 'Select District')],
 						'pluginOptions'=>[
 							'depends'=>['product-city'],
@@ -100,70 +101,53 @@ use yii\widgets\ActiveForm;
 				<ul class="mt5">
 					<li class="item">
 						<?php
-							$selectedWard = !$model->isNewRecord?common\models\Ward::getSelectedWard($model->ward):false;
 							echo Html::hiddenInput('ward_hidden', $model->ward, ['id'=>'ward_hidden']);
 							echo $form->field($model, 'ward')->label(false)->widget(kartik\depdrop\DepDrop::classname(), [
 								'type'=>kartik\depdrop\DepDrop::TYPE_SELECT2,
 								'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
 //								'options' => ['placeholder'=> Yii::t('product', 'Select Ward'),],
-								'data'=>  $selectedWard?$selectedWard:[],
+								'data'=> isset($dataSelected['data']['ward'])?$dataSelected['data']['ward']:[],
 								'pluginOptions'=>[
 									'depends'=>['product-city','product-district'],
 									'initialize'=>true,
-									'placeholder' =>  Yii::t('product', 'Ward'),
+									'placeholder' =>  Yii::t('product', 'Ward/Commune'),
 									'url'=>  \yii\helpers\Url::to(['/site/get-ward']),
 									'params'=>['ward_hidden']
 								],
-		//						'pluginEvents' => [
-		//							"select2:select"=>"function() {console.log('select2-selecting city',this.value); Utils.changeAddress('product',this); }",
-		//							"select2:unselect" => "function() {console.log('select2-removed-ward'); Utils.changeAddress('product',this,2); }",
-		//						]
 							]);
 							?>
 					</li>
 					<li class="item">
 						<?php
-						$selectedStreet = !$model->isNewRecord?common\models\Street::getSelectedStreet($model->street):false;
 						echo Html::hiddenInput('street_hidden', $model->street, ['id'=>'street_hidden']);
 						echo $form->field($model, 'street')->label(false)->widget(kartik\depdrop\DepDrop::classname(), [
 							'type'=>kartik\depdrop\DepDrop::TYPE_SELECT2,
 							'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
-							'data'=>  $selectedStreet?$selectedStreet:[],
+//							'data'=> isset($dataSelected['street'])?$dataSelected['street']:[],
 							'pluginOptions'=>[
 								'depends'=>['product-city','product-district'],
-								'initialize'=>!$model->isNewRecord?true:false,
+//								'initialize'=>true,
 								'placeholder'=> Yii::t('product', 'Street'),
 								'url'=>  \yii\helpers\Url::to(['/site/get-street']),
 								'params'=>['street_hidden']
 							],
-		//					'pluginEvents' => [
-		//						"select2:select"=>"function() {console.log('select2-selecting street',this.value); Utils.changeAddress('product',this); }",
-		//						"select2:unselect" => "function() {console.log('select2-removed-str'); Utils.changeAddress('product',this,2); }",
-		////							"depdrop.afterChange"=>"function(event, id, value) { Utils.changeAddress('product');}",
-		//					]
 						]);
 						?>
 					</li>
 					<li class="item">
 						<?php
-						$selectedProject = !$model->isNewRecord?common\models\Project::getSelectedProject($model->project_id):false;
 						echo Html::hiddenInput('project_id_hidden', $model->project_id, ['id'=>'project_id_hidden']);
 						echo $form->field($model, 'project_id')->label(false)->widget(kartik\depdrop\DepDrop::classname(), [
 							'type'=>kartik\depdrop\DepDrop::TYPE_SELECT2,
 							'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
-							'data'=>  $selectedProject?$selectedProject:[],
+//							'data'=> isset($dataSelected['project'])?$dataSelected['project']:[],
 							'pluginOptions'=>[
 								'depends'=>['product-city','product-district'],
-								'initialize'=>!$model->isNewRecord?true:false,
+//								'initialize'=>true,
 								'placeholder'=> Yii::t('product', 'Project'),
 								'url'=>  \yii\helpers\Url::to(['/site/get-project']),
 								'params'=>['project_id_hidden']
 							],
-							'pluginEvents' => [
-								"select2:select"=>"function() {console.log('select2-selecting project_id',this.value); Utils.changeAddress('product',this); }",
-								"select2:unselect" => "function() {console.log('select2-pro'); Utils.changeAddress('product',this,2); }",
-		//							"depdrop.afterChange"=>"function(event, id, value) { Utils.changeAddress('product');}",
-							]
 						]);
 						?>
 					</li>

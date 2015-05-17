@@ -97,7 +97,7 @@ use yii\bootstrap\ActiveForm;
 									'pluginOptions'=>[
 										'depends'=>['product-city','product-district'],
 										'initialize'=>!$model->isNewRecord?true:false,
-										'placeholder'=> Yii::t('product', 'Ward'),
+										'placeholder'=> Yii::t('product', 'Ward/Commune'),
 										'url'=>  \yii\helpers\Url::to(['/product/get-ward']),
 										'params'=>['ward_hidden']
 									],

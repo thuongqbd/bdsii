@@ -18,7 +18,7 @@ class SearchBox extends \yii\base\Widget
      */
     public function run()
     {		
-//		var_dump(\Yii::$app->requestedParams);
+//		var_dump(\Yii::$app->requestedParams,'---------------');
 		$model = new \frontend\models\Product();
 		$model->product_type = 1;
 		$modelCate = \common\models\ProductCategory::findAll(['published'=>1,'deleted'=>0],['order'=>'order_num']);
@@ -50,13 +50,24 @@ class SearchBox extends \yii\base\Widget
 		}
 
 		$model->setScenario('frontendSearch');
+		$session = Yii::$app->session;
+
+		$dataSelected = $session->get('filter');
+		$session->remove('filter');
+		if(!empty($dataSelected['id']))
+			$model->setAttributes ($dataSelected['id']);
+		
+		$selectedTab = $dataSelected?$dataSelected['id']['product_type']:1;
+
         return $this->render('SearchBox',[
 			'model'=>$model,
 			'listCate'=>$listCate,
 			'jsonCate'=>  json_encode($jsonCate),
 			'listPriceType'=>$listPriceType,
 			'listPriceType' => $listPriceType,
-			'jsonPriceType' => json_encode($jsonPriceType)
+			'jsonPriceType' => json_encode($jsonPriceType),
+			'dataSelected' => $dataSelected,
+			'selectedTab' => $selectedTab
 				]);
     }
 }

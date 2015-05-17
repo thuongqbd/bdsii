@@ -80,7 +80,7 @@ $config = [
         ],
 
         'i18n' => [
-			'class' => 'common\components\I18N',
+//			'class' => 'common\components\I18N',
             'translations' => [
                 'app'=>[
                     'class' => 'yii\i18n\PhpMessageSource',
@@ -103,7 +103,8 @@ $config = [
                     'messageTable'=>'{{%i18n_message}}',
                     'enableCaching' => YII_ENV_DEV,
                     'cachingDuration' => 3600,
-					'forceTranslation' => true
+					'forceTranslation' => true,
+//					'on missingTranslation' => ['common\components\TranslationEventHandler', 'handleMissingTranslation']
                 ],               
             ],
 //			'as missingTranslation' =>function(){

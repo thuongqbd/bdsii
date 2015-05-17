@@ -14,4 +14,7 @@ return [
 	'cacheExpire'=>[
 		'location' =>31536000, //1year
 	],
+	'pageSize'=>[
+		'productFilter' => 10,
+	],
 ];

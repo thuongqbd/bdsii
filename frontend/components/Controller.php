@@ -28,68 +28,142 @@ class Controller extends \yii\web\Controller{
 			if(!$firstParam){
 				$firstParam = MasterValues::descByValue('product_type', $post['product_type']);
 			}
-			
+			$url = ['filter/filter'];
+			if($isCate){				
+				$url['cate'] =$firstParam;
+			}else{						
+				$url['type'] =$firstParam;
+			}
+			if(!empty($post['city'])){
+				$model = \common\models\Province::find()->where(['id'=>$post['city']])->one();
+				if($model){				
+					$url['province'] = $model->alias;
+					$url['pPrefix'] = Utils::stripUnicode($model->prefix);
+				}
+			}
+			if(!empty($post['district']) && !empty($post['city'])){
+				$model = \common\models\District::find()->where(['province_id'=>$post['city'],'id'=>$post['district']])->one();
+				if($model){				
+					$url['district'] = $model->alias;
+					$url['dPrefix'] = Utils::stripUnicode($model->prefix);
+				}
+			}
 			if(!empty($post['project_id']) && !empty($post['city']) && !empty($post['district'])){
 				$model = \common\models\Project::find()->where(['id'=>$post['project_id'],'published'=>1,'deleted'=>0])->one();
 				if($model){
-					if($isCate){
-						$url = Url::to(['filter/project','cate'=> $firstParam,'slug'=>$model->slug,'id'=>$model->id]);
-					}else{						
-						$url = Url::to(['filter/project','type'=> $firstParam,'slug'=>$model->slug,'id'=>$model->id]);
-					}
+					$url['project'] = $model->slug;					
 				}
 			}
-			elseif(!empty($post['street']) && !empty($post['city']) && !empty($post['district'])){
+			if(!empty($post['street']) && !empty($post['city']) && !empty($post['district'])){
 				$model = \common\models\Street::find()->where(['province_id'=>$post['city'],'district_id'=>$post['district'],'id'=>$post['street']])->one();
 				if($model){
 					$prefix = Utils::stripUnicode($model->prefix);
-					if($isCate){
-						$url = Url::to(['filter/street','cate'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
-					}else{						
-						$url = Url::to(['filter/street','type'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
-					}
+					$url['street'] = $model->alias;
+					$url['sPrefix'] = $prefix;
 				}
 			}
-			elseif(!empty($post['ward']) && !empty($post['city']) && !empty($post['district'])){
+			if(!empty($post['ward']) && !empty($post['city']) && !empty($post['district'])){
 				$model = \common\models\Ward::find()->where(['province_id'=>$post['city'],'district_id'=>$post['district'],'id'=>$post['ward']])->one();
 				if($model){				
 					$prefix = Utils::stripUnicode($model->prefix);
-					if($isCate){
-						$url = Url::to(['filter/ward','cate'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
-					}else{						
-						$url = Url::to(['filter/ward','type'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
-					}
+					$url['ward'] = $model->alias;
+					$url['wPrefix'] = $prefix;
 				}
-			}elseif(!empty($post['district']) && !empty($post['city'])){
-				$model = \common\models\District::find()->where(['province_id'=>$post['city'],'id'=>$post['district']])->one();
-				if($model){				
-					if($isCate){
-						$url = Url::to(['filter/district','cate'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
-					}else{						
-						$url = Url::to(['filter/district','type'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
-					}
-				}
-			}elseif(!empty($post['city'])){
-				$model = \common\models\Province::find()->where(['id'=>$post['city']])->one();
-				if($model){				
-					if($isCate){
-						$url = Url::to(['filter/province','cate'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
-					}else{						
-						$url = Url::to(['filter/province','type'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
-					}
-				}
-			}elseif($isCate){
-				$url = Url::to(['filter/category','cate'=> $firstParam]);
-			}else{
-				$url = Url::to(['filter/type','type'=> $firstParam]);
 			}
-
-			if(!empty($url))
-				$this->redirect($url,302);
+			if(!empty($post['area']) || !empty($post['price']) || !empty($post['room_number']) || !empty($post['direction'])){
+				$url['area'] = !empty($post['area'])?$post['area']:0;
+				$url['price'] = !empty($post['price'])?$post['price']:0;
+				$url['room_number'] = !empty($post['room_number'])?$post['room_number']:0;
+				$url['direction'] = !empty($post['direction'])?$post['direction']:0;
+			}
+			if(!empty($url)){
+				$this->redirect(Url::to($url),302);
+			}
 		}
 		return parent::beforeAction($action);
     }
-		
+	
+//	public function beforeAction($action)
+//    {
+//		
+//        if(isset($_POST['Product'])){
+//			$post = $_POST['Product'];
+//			$firstParam = null;
+//			$isCate = false;
+//			if(!empty($post['product_cate'])){
+//				$cate = \common\models\ProductCategory::find()
+//						->where('category_id = :category_id',[':category_id'=>$post['product_cate']])
+//						->andWhere('published = 1')->andWhere('deleted = 0')->one();
+//				if($cate){
+//					$firstParam = $cate->slug;
+//					$isCate = true;
+//				}
+//			}
+//			if(!$firstParam){
+//				$firstParam = MasterValues::descByValue('product_type', $post['product_type']);
+//			}
+//			
+//			if(!empty($post['project_id']) && !empty($post['city']) && !empty($post['district'])){
+//				$model = \common\models\Project::find()->where(['id'=>$post['project_id'],'published'=>1,'deleted'=>0])->one();
+//				if($model){
+//					if($isCate){
+//						$url = Url::to(['filter/project','cate'=> $firstParam,'slug'=>$model->slug,'id'=>$model->id]);
+//					}else{						
+//						$url = Url::to(['filter/project','type'=> $firstParam,'slug'=>$model->slug,'id'=>$model->id]);
+//					}
+//				}
+//			}
+//			elseif(!empty($post['street']) && !empty($post['city']) && !empty($post['district'])){
+//				$model = \common\models\Street::find()->where(['province_id'=>$post['city'],'district_id'=>$post['district'],'id'=>$post['street']])->one();
+//				if($model){
+//					$prefix = Utils::stripUnicode($model->prefix);
+//					if($isCate){
+//						$url = Url::to(['filter/street','cate'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
+//					}else{						
+//						$url = Url::to(['filter/street','type'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
+//					}
+//				}
+//			}
+//			elseif(!empty($post['ward']) && !empty($post['city']) && !empty($post['district'])){
+//				$model = \common\models\Ward::find()->where(['province_id'=>$post['city'],'district_id'=>$post['district'],'id'=>$post['ward']])->one();
+//				if($model){				
+//					$prefix = Utils::stripUnicode($model->prefix);
+//					if($isCate){
+//						$url = Url::to(['filter/ward','cate'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
+//					}else{						
+//						$url = Url::to(['filter/ward','type'=> $firstParam,'prefix'=>$prefix,'slug'=>$model->alias,'id'=>$model->id]);
+//					}
+//				}
+//			}elseif(!empty($post['district']) && !empty($post['city'])){
+//				$model = \common\models\District::find()->where(['province_id'=>$post['city'],'id'=>$post['district']])->one();
+//				if($model){				
+//					if($isCate){
+//						$url = Url::to(['filter/district','cate'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
+//					}else{						
+//						$url = Url::to(['filter/district','type'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
+//					}
+//				}
+//			}elseif(!empty($post['city'])){
+//				$model = \common\models\Province::find()->where(['id'=>$post['city']])->one();
+//				if($model){				
+//					if($isCate){
+//						$url = Url::to(['filter/province','cate'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
+//					}else{						
+//						$url = Url::to(['filter/province','type'=> $firstParam,'slug'=>$model->alias,'id'=>$model->id]);
+//					}
+//				}
+//			}elseif($isCate){
+//				$url = Url::to(['filter/category','cate'=> $firstParam]);
+//			}else{
+//				$url = Url::to(['filter/type','type'=> $firstParam]);
+//			}
+//
+//			if(!empty($url))
+//				$this->redirect($url,302);
+//		}
+//		return parent::beforeAction($action);
+//    }
+//	
 	public function actionGetDistrict() {
 		$out = [];
 		if (isset($_POST['depdrop_parents'])) {

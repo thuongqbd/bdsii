@@ -50,31 +50,40 @@ var App = {
 			getAddress ();
 		}
 	},
-	searchBoxInit:function(){
+	changeSearchBox:function(obj){
+		//change value for product cate
+		$("#product-product_cate").html("");
+		$("#product-product_cate").select2({
+			data: listCate[$(obj).data('value')],
+			"theme":"krajee","placeholder":message.product_cate,"language":curLang,"allowClear": true
+		  });
+		 $("#product-product_cate").val(null).trigger("change");
+		//change value for price
+		$("#product-price").html("");
+		$("#product-price").select2({
+			data: listPriceType[$(obj).data('value')],
+			"theme":"krajee","placeholder":message.price,"language":curLang,"allowClear": true
+		  });
+
+		$('.product-type-tab').removeClass('active');
+		$(obj).addClass('active');
+		$('#product_type_hidden').val($(obj).data('value'))
+	},
+	searchBoxInit:function(){	
+		App.changeSearchBox($('.product-type-tab.active'));
 		$('.product-type-tab').on('click',function(event){
 			console.log(listCate[$(this).data('value')]);
-			
-			//change value for product cate
-			$("#product-product_cate").html("");
-			$("#product-product_cate").select2({
-				data: listCate[$(this).data('value')],
-				"theme":"krajee","placeholder":message.product_cate,"language":curLang,"allowClear": true
-			  });
-			 
-			//change value for price
-			$("#product-price").html("");
-			$("#product-price").select2({
-				data: listPriceType[$(this).data('value')],
-				"theme":"krajee","placeholder":message.price,"language":curLang,"allowClear": true
-			  });
-			  
-			$('.product-type-tab').removeClass('active');
-			$(this).addClass('active');
-			$('#product_type_hidden').val($(this).data('value'))
+			App.changeSearchBox(this);
 			event.preventDefault();	
 		})		
 	},
 }
 $(function() {
 	App.searchBoxInit();
+	if($('#filter-order').length){
+		$('#filter-order').on('change',function(){
+			$(this).closest('form').submit();
+		})
+		
+	}
 })

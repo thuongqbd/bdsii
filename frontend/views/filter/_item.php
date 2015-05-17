@@ -4,9 +4,7 @@ use yii\helpers\HtmlPurifier;
 use \yii\helpers\Url;
 use \common\components\MasterValues;
 use \common\components\Utils;
-$modelDistrict = \common\models\District::find()->where(['province_id'=>$model->city,'id'=>$model->district])->one();
-$modelCate = \common\models\ProductCategory::find()->where(['category_id'=>$model->product_cate])->andWhere('published = 1')->andWhere('deleted = 0')->one();
-$modelProvince = \common\models\Province::find()->where(['id'=>$model->city])->one();
+
 ?>
 <li class="clearfix pt20 pb20 bor-bot">
 	<a class="pic border-gray3 w-160 h-130 fl position" href="<?= Url::to(['product/view','slug'=>$model->slug,'id'=>$model->product_id])?>">
@@ -25,9 +23,10 @@ $modelProvince = \common\models\Province::find()->where(['id'=>$model->city])->o
 			<label>
 				<?php
 				if($model->price && $model->price_type){
-					echo $model->price .' '.MasterValues::itemByValue($model->product_type==1?'price_type_sale':'price_type_rent', $model->price_type);
+					$type = $model->product_type==MasterValues::MV_PRICE_TYPE_SALE?MasterValues::MV_PRICE_TYPE_SALE_CODE:MasterValues::MV_PRICE_TYPE_RENT_CODE;
+					echo $model->price .' '.$priceType[$type][$model->price_type];
 				}else{
-					echo MasterValues::itemByValue('price_type_sale', 1);
+					echo $priceType[MasterValues::MV_PRICE_TYPE_SALE_CODE][0];
 				}
 				?>
 			</label>
@@ -50,7 +49,7 @@ $modelProvince = \common\models\Province::find()->where(['id'=>$model->city])->o
 					<span class="pd5 bor-left w-80-100 fl">
 						<?php
 						if(!$model->area){
-							echo \common\components\MasterValues::itemByValue('search_area', 1);
+							echo \common\components\MasterValues::itemByValue('search_area', 0);
 						}else{
 							echo $model->area.'&nbsp;m²';
 						}
@@ -60,15 +59,15 @@ $modelProvince = \common\models\Province::find()->where(['id'=>$model->city])->o
 				<label class="bor-bot clearfix">
 					<s class="ic-option fl mr5 ml5 mt8"></s>
 					<span class="pd5 bor-left w-80-100 fl">						
-						<?php 						
-						$url = Url::to(['filter/district','cate'=> $modelCate->slug,'slug'=>$modelDistrict->alias,'id'=>$modelDistrict->id]);
+						<?php 
+							$url = Url::to(['filter/district','cate'=> $listCates[$model->product_cate]['slug'],'slug'=>$listDistricts[$model->district]['alias'],'id'=>$model->district]);
 						?>
-						<?= Html::a($modelCate->title, $url) ?>
+						<?= Html::a($listCates[$model->product_cate]['title'], $url) ?>
 					</span>
 				</label>
 				<label class="bor-bot clearfix">
 					<s class="ic-adress fl mr5 ml5 mt8"></s>
-					<span class="pd5 bor-left w-80-100 fl"><?= Html::encode($modelDistrict->name) ?> - <?= Html::encode($modelProvince->name) ?></span>
+					<span class="pd5 bor-left w-80-100 fl"><?= Html::encode($listDistricts[$model->district]['name']) ?> - <?= Html::encode($listProvinces[$model->city]['name']) ?></span>
 				</label>
 			</div>
 		</div>

@@ -4,6 +4,12 @@
 h1, .h1, h2, .h2, h3, .h3 {
   margin-top: 0;
   margin-bottom: 0;
+  line-height: 22.5px;
+}
+h4, .h4, h5, .h5, h6, .h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 21px;
 }
 h4{
 	font-size: 12px;
@@ -543,6 +549,8 @@ span.request {
 
 .box-result .label {
 	color: #0098bb;
+	font-size: 100%;
+	  padding: 0;
 }
 
 .box-result a {
@@ -957,6 +965,7 @@ ul li .infor-descrip {
 
 .box-cont ul li a.pic {
 	background: url('../images/no-photo.png') no-repeat 50% 50%;
+	background-size: contain;
 }
 
 #banner_top {
@@ -996,4 +1005,7 @@ ul li .infor-descrip {
 .select2-container--krajee .select2-selection__clear{
 	font-size: 13px;
 	margin-right: 25px;
+}
+.select2-container--krajee .select2-selection--single .select2-selection__placeholder {
+  color: #333;
 }

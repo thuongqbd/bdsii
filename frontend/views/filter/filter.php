@@ -1,41 +1,39 @@
 <?php
 use yii\widgets\ListView;
+use yii\widgets\ActiveForm;
 ?>
+<?php $form = ActiveForm::begin(); ?>
 <div class="productlist">
 	<div class="box news">
 		<div class="font-roboto" style="border-top: 1px solid #dff2f6">
 			<div class="bg_white clearfix bor-bot " style="border-top: 1px solid #0098bb">
 				<div class="fl">
 					<h1 class="font15 lblcate">
-						Nhà đất bán tại Chung cư 10A Trần Nhật Duật
+						<?= $titleMess?>
 					</h1>
 				</div>
 				<div class="fr wr_order">
-<!--					<div class="lblorder">Sắp xếp theo:</div>
-					<select name="ctl00$PH_Container$ProductSearchResult$ddlOrder" onchange="sortchange();setTimeout(&#39;__doPostBack(\&#39;ctl00$PH_Container$ProductSearchResult$ddlOrder\&#39;,\&#39;\&#39;)&#39;, 0)" id="ddlOrder" sb="17904159" style="display: none;">
-						<option selected="selected" value="0">Thông thường</option>
-						<option value="2">Giá thấp nhất</option>
-						<option value="3">Giá cao nhất</option>
-						<option value="4">Diện tích nhỏ nhất</option>
-						<option value="5">Diện tích lớn nhất</option>
-					</select>
-					<div id="sbHolder_17904159" class="sbHolder" tabindex="0">
-						<a id="sbToggle_17904159" href="http://dothidiaoc.com/nha-dat-ban-chung-cu-10a-tran-nhat-duat.htm#" class="sbToggle"></a><a id="sbSelector_17904159" href="http://dothidiaoc.com/nha-dat-ban-chung-cu-10a-tran-nhat-duat.htm#" class="sbSelector">Thông thường</a>
-						<ul id="sbOptions_17904159" class="sbOptions" style="display: none;">
-							<li><a href="http://dothidiaoc.com/nha-dat-ban-chung-cu-10a-tran-nhat-duat.htm#0" rel="0" class="sbFocus">Thông thường</a></li>
-							<li><a href="http://dothidiaoc.com/nha-dat-ban-chung-cu-10a-tran-nhat-duat.htm#2" rel="2">Giá thấp nhất</a></li>
-							<li><a href="http://dothidiaoc.com/nha-dat-ban-chung-cu-10a-tran-nhat-duat.htm#3" rel="3">Giá cao nhất</a></li>
-							<li><a href="http://dothidiaoc.com/nha-dat-ban-chung-cu-10a-tran-nhat-duat.htm#4" rel="4">Diện tích nhỏ nhất</a></li>
-							<li><a href="http://dothidiaoc.com/nha-dat-ban-chung-cu-10a-tran-nhat-duat.htm#5" rel="5">Diện tích lớn nhất</a></li>
-						</ul>
-					</div>-->
+					<div class="lblorder">Sắp xếp theo:</div>
+					<?= yii\helpers\Html::dropDownList('order', $order, common\components\MasterValues::listItemByCode('search_order'),['id'=>'filter-order'])?>					
 				</div>
 			</div>
 		</div>
 		<h3 class="box-result">
-			Tìm kiếm theo các tiêu chí: Tỉnh/Tp:  <span class="label">Hồ Chí Minh</span>. Quận/Huyện:  <span class="label">Quận 1</span>. Dự án:  <span class="label">Chung cư 10A Trần Nhật Duật</span>. 
-			<span class="spancount">Có <b>
-			16</b> bất động sản.</span>
+			<?php
+				echo Yii::t('frontend','Search by options: {type} {city} {district} {ward} {street} {project} {area} {price} {direction} {room_number} {count}',[
+						'type' => '<span class="label">'.$message['type'].'.</span>',
+						'city' => !empty($message['city'])?Yii::t('product', 'City/Province').': <span class="label">'.$message['city'].'.</span>':'',
+						'district' => !empty($message['district'])?Yii::t('product', 'District').': <span class="label">'.$message['district'].'.</span>':'',
+						'ward' => !empty($message['ward'])?Yii::t('product', 'Ward/Commune').': <span class="label">'.$message['ward'].'.</span>':'',
+						'street' => !empty($message['street'])?Yii::t('product', 'Street').': <span class="label">'.$message['street'].'.</span>':'',
+						'project' => !empty($message['project'])?Yii::t('product', 'Project').': <span class="label">'.$message['project'].'.</span>':'',
+						'area' => !empty($message['area'])?Yii::t('product', 'Area').': <span class="label">'.$message['area'].'.</span>':'',
+						'price' => !empty($message['price'])?Yii::t('product', 'Price').': <span class="label">'.$message['price'].'.</span>':'',
+						'direction' => !empty($message['direction'])?Yii::t('product', 'Direction').': <span class="label">'.$message['direction'].'.</span>':'',
+						'room_number' => !empty($message['room_number'])?Yii::t('product', 'Room Number').': <span class="label">'.$message['room_number'].'.</span>':'',
+						'count' => '<span class="spancount">'.Yii::t('product','Number of properties: {count}.',['count'=>'<b>'.$dataProvider->totalCount.'</b>']).'</span>',
+					]);
+			?>
 		</h3>
 		<div class="box-cont">
 			<ul class="clearfix">
@@ -43,6 +41,13 @@ use yii\widgets\ListView;
 				echo ListView::widget([
 					'dataProvider' => $dataProvider,
 					'itemView' => '_item',
+					'layout' => "{items}\n{pager}",
+					'viewParams' => [
+						'listProvinces' => $listProvinces,
+						'listDistricts' => $listDistricts,
+						'listCates' => $listCates,
+						'priceType' => $priceType
+					]
 				]);?>
 			</ul>
 		</div>
@@ -50,6 +55,5 @@ use yii\widgets\ListView;
 	<div class="box page page_controll nobor position tc">
 		<span id="PH_Container_ProductSearchResult_ProductsPager"></span>
 	</div>
-</div>
-							
-
+</div>							
+<?php ActiveForm::end(); ?>

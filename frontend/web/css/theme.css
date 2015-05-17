@@ -419,7 +419,7 @@ img {
 }
 
 .mt40 {
-	margin-top: 40px;
+	/*margin-top: 40px;*/
 }
 
 .mb40 {
@@ -880,12 +880,12 @@ input[type=checkbox],input[type=radio],input.checkbox,input.radio {
 
 #top_bar ul li {
 	float: right;
-	margin-left: 25px;
+	margin-left: 20px;
 }
 
 #top_bar ul li a {
 	text-decoration: none;
-	padding: 4px 15px;
+	padding: 4px 12px;
 }
 
 #header {

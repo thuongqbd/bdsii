@@ -33,8 +33,18 @@ use yii\bootstrap\NavBar;
 				<div class="box-tagein cl5">
 					<ul class="clearfix">
 						<li><a href="http://dothidiaoc.com/dang-tin-ban-cho-thue-nha-dat.htm" class="bold white"><s class="ic-newsup fl mt3 mr5"></s>Đăng tin</a></li>
+						<li class="lang">
+							<?php
+							if(substr(Yii::$app->language, 0,2) == 'vi'){
+								echo Html::a('<img src="'.Yii::getAlias('@frontendUrl').'/images/cy-GB.gif"/>', ['site/index','language'=>'en']);
+							}else{
+								echo Html::a('<img src="'.Yii::getAlias('@frontendUrl').'/images/vietnam.gif"/>', ['site/index','language'=>'vi']);
+							}
+									
+							?>
+						</li>
 						<li><a class="dangnhap " href="http://dothidiaoc.com/dang-nhap.htm" rel="nofollow"><s class="ic-login fl mt3 mr5"></s>Đăng nhập</a></li>
-						<li><a class="dangky " href="http://dothidiaoc.com/dang-ky.htm" rel="nofollow"><s class="ic-register fl mt3 mr5"></s>Đăng ký</a></li>
+						<li><a class="dangky " href="http://dothidiaoc.com/dang-ky.htm" rel="nofollow"><s class="ic-register fl mt3 mr5"></s>Đăng ký</a></li>			
 					</ul>
 				</div>
 			</div>
@@ -42,9 +52,9 @@ use yii\bootstrap\NavBar;
 		<div id="header" class="bg_white">
 			<div class="main pt10 pb10 clearfix">
 				<h1 class="logo">
-					<?= Html::a('<img src="images/logo.png" alt="dothidiaoc.com">', Yii::getAlias('@frontendUrl')) ?>
+					<?= Html::a('<img src="'.Yii::getAlias('@frontendUrl').'/images/logo.png" alt="dothidiaoc.com">', Yii::getAlias('@frontendUrl')) ?>
 				</h1>
-				<div id="banner_top" class="banner w-650 fr"><a href="http://vpbank.com.vn/" rel="nofollow" target="_blank"><img src="images/vpbank.png"></a></div>
+				<div id="banner_top" class="banner w-650 fr"><a href="http://vpbank.com.vn/" rel="nofollow" target="_blank"><img src="<?php echo Yii::getAlias('@frontendUrl')?>/images/vpbank.png"></a></div>
 			</div>
 		</div>
 		<?= frontend\components\widgets\TopMenu::widget()?>
@@ -65,7 +75,7 @@ use yii\bootstrap\NavBar;
 				<div class="w-40-100 fl">
 					<label class="logo-footer mb10">
 					<a href="./dothidiaoc.com_files/dothidiaoc.com.html" title="Đô thị địa ốc">
-					<img src="images/logo-footer.png" alt="dothidiaoc.com"></a>
+					<img src="<?php echo Yii::getAlias('@frontendUrl')?>/images/logo-footer.png" alt="dothidiaoc.com"></a>
 					</label>
 					<h5 class="white font14 pt5">CÔNG TY CỔ PHẦN NHÀ ĐẤT TRƯỜNG PHÚC</h5>
 					<label class="adress mt10 pt10 font13 bold">

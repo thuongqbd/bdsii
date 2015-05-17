@@ -80,7 +80,7 @@ class Product extends ActiveRecord
 			[['start_date'], 'default', 'value'=>time()],
 			[['end_date'], 'default', 'value'=>time()+ (90 * 24 * 60 * 60)],
             [['start_date','end_date'], 'filter', 'filter'=>'strtotime'],
-			[['attachments','lat','lng'], 'safe']
+			[['attachments','product_type', 'product_cate', 'city', 'district', 'ward', 'street', 'project_id','price','direction','room_number','area','lat','lng'], 'safe']
         ];
     }
 
@@ -126,10 +126,10 @@ class Product extends ActiveRecord
             'description' => Yii::t('product', 'Description'),
             'product_type' => Yii::t('product', 'Type'),
             'product_cate' => Yii::t('product', 'Category'),
-            'city' => Yii::t('common', 'City/Province'),
-            'district' => Yii::t('common', 'District'),
-            'ward' => Yii::t('common', 'Ward'),
-            'street' => Yii::t('common', 'Street'),
+            'city' => Yii::t('product', 'City/Province'),
+            'district' => Yii::t('product', 'District'),
+            'ward' => Yii::t('product', 'Ward/Commune'),
+            'street' => Yii::t('product', 'Street'),
             'project_id' => Yii::t('product', 'Project'),
             'area' => Yii::t('product', 'Area'),
             'price' => Yii::t('product', 'Price'),

@@ -11,31 +11,12 @@ class MasterValues
 	const MV_LOCALE 	= 'locale';
 	const MV_PT_FOR_SALE 	= 1;
 	const MV_PT_FOR_RENT 	= 2;
-	/* Master data for list */
-	/**
-	 * Returns the data model based on value_code and locale
-	 * @param value_code
-	 * @param locale: en, vi
-	 */
-//	public static function htlmListItemByCode($code, $locale=null)
-//	{
-//		$model = MasterValue::findAll(
-//		[
-//			'locale' => ($locale!=null)?$locale:Yii::$app->language,
-//			'value_code'=>$code
-//		],[
-//			'order'=>'`order`'
-//		]
-//		);
-//		
-//		$list=ArrayHelper::map($model,'value','label');
-//
-//		//print_r($list);
-//		
-//		return CHtml::dropDownList($code, '', $list, array('empty' => '(Select a Value)'));
-//	
-//	}
-	
+
+	const MV_PRICE_TYPE_SALE = 1;
+	const MV_PRICE_TYPE_SALE_CODE = 'price_type_sale';
+	const MV_PRICE_TYPE_RENT = 2;
+	const MV_PRICE_TYPE_RENT_CODE = 'price_type_rent';
+
 	/**
 	 * Returns the data model based on value_code and locale
 	 * @param value_code
@@ -51,6 +32,15 @@ class MasterValues
 			'order'=>'`order`'
 		]
 		);
+
+		if(is_array($code)){
+			$result = [];
+			foreach ($model as $value) {
+				if(array_search($value->value_code, $code) !== FALSE)
+					$result[$value->value_code][$value->value] = $value->label;
+			}
+			return $result;
+		}
 		return ArrayHelper::map($model,'value','label');	
 	}
 	
@@ -114,6 +104,20 @@ class MasterValues
 				return $model->value;
 		}else{
 			return ;
+		}
+	}
+	
+	public static function findByCondition($condition,$multi = false, $locale=null){
+		$find = MasterValue::find()->where($condition)->andWhere(['locale' => substr(($locale!=null)?$locale:Yii::$app->language, 0,2)])->orderBy('order_num');
+		if($multi){
+			$model = $find->all();
+		}else{
+			$model = $find->one();
+		}
+		if($model){			
+				return $model;
+		}else{
+			return [];
 		}
 	}
 }

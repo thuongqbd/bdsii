@@ -34,7 +34,7 @@ class I18N extends \yii\i18n\I18N
         $messageSource = $this->getMessageSource($category);
         $translation = $messageSource->translate($category, $message, $language);
         if ($translation === false) {
-			$this->insertNewMessage($category, $message, $language);
+//			$this->insertNewMessage($category, $message, $language);
             return $this->format($message, $params, $messageSource->sourceLanguage);
         } else {
             return $this->format($translation, $params, $language);
