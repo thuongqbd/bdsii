@@ -61,19 +61,19 @@ class FilterController extends \frontend\components\Controller
 			$condition['city'] = $modelProvince->id;
 			$message['city'] = $modelProvince->name;
 			$session['id']['city'] = $modelProvince->id;
-			$titleMess = \Yii::t('product','{type} at {location}',['type'=> $message['type'],'location'=>$message['city']]);
+			$titleMess = \Yii::t('product','{type} at {location}',['type'=> $message['type'],'location'=>$modelProvince->prefix .' '. $message['city']]);
 			if(!empty($district) && $modelDistrict = District::findOne(['alias'=>$district,'province_id'=>$modelProvince->id])){			
 				$condition['district'] = $modelDistrict->id;
 				$message['district'] = $modelDistrict->name;
 				$session['id']['district'] = $modelDistrict->id;
 				$session['data']['district'] = [$modelDistrict->id=>$modelDistrict->name];
-				$titleMess = \Yii::t('product','{type} at {location}',['type'=> $message['type'],'location'=>$message['district']]);
+				$titleMess = \Yii::t('product','{type} at {location}',['type'=> $message['type'],'location'=>$modelDistrict->prefix .' '. $message['district']]);
 				if(!empty($ward) && $modelWard = Ward::findOne(['alias'=>$ward,'province_id'=>$modelProvince->id,'district_id'=>$modelDistrict->id])){
 					$condition['ward'] = $modelWard->id;
 					$message['ward'] = $modelWard->name;
 					$session['id']['ward'] = $modelWard->id;
 					$session['data']['ward'] = [$modelWard->id=>$modelWard->name];
-					$titleMess = \Yii::t('product','{type} at {location}',['type'=> $message['type'],'location'=>$message['ward']]);
+					$titleMess = \Yii::t('product','{type} at {location}',['type'=> $message['type'],'location'=>$modelWard->prefix .' '. $message['ward']]);
 				}
 				
 				if(!empty($street) && $modelStreet = Street::findOne(['alias'=>$street,'province_id'=>$modelProvince->id,'district_id'=>$modelDistrict->id])){
@@ -81,7 +81,7 @@ class FilterController extends \frontend\components\Controller
 					$message['street'] = $modelStreet->name;
 					$session['id']['street'] = $modelStreet->id;
 					$session['data']['street'] = [$modelStreet->id=>$modelStreet->name];
-					$titleMess = \Yii::t('product','{type} at {location}',['type'=> $message['type'],'location'=>$message['street']]);
+					$titleMess = \Yii::t('product','{type} at {location}',['type'=> $message['type'],'location'=>$modelStreet->prefix .' '. $message['street']]);
 				}
 				
 				if(!empty($project) && $modelProject = Project::findOne(['slug'=>$project,'city'=>$modelProvince->id,'district'=>$modelDistrict->id])){

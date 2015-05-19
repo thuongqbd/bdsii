@@ -124,18 +124,18 @@ class ProductCategoryController extends \backend\components\Controller
         }
     }
 	
-	public function actionGetParentsList(){
-		 
-		$productType = Yii::$app->request->post('product_type');
-		$model = new ProductCategory();
-		$categories = $model->getList($productType,(int) Yii::$app->request->post('category_id'));
-		$result = \yii\helpers\Html::dropDownList('ProductCategory[parent_id]', null, \yii\helpers\ArrayHelper::map(
-			$categories,
-			'category_id',
-			'title'
-		), ['prompt'=>'Select...','id'=>'productcategory-parent_id','class'=>'form-control']);
-		echo $result;
-	}
+//	public function actionGetParentsList(){
+//		 
+//		$productType = Yii::$app->request->post('product_type');
+//		$model = new ProductCategory();
+//		$categories = $model->getList($productType,(int) Yii::$app->request->post('category_id'));
+//		$result = \yii\helpers\Html::dropDownList('ProductCategory[parent_id]', null, \yii\helpers\ArrayHelper::map(
+//			$categories,
+//			'category_id',
+//			'title'
+//		), ['prompt'=>'Select...','id'=>'productcategory-parent_id','class'=>'form-control']);
+//		echo $result;
+//	}
 	
 	/*
 	 * ajaxUpdate

@@ -1,8 +1,9 @@
 <?php
-namespace common\components\widgets;
+namespace frontend\components\widgets;
 
 use Yii;
-use \common\components\MasterValues;
+use common\models\MasterValue;
+use common\components\MasterValues;
 use \common\components\Utils;
 use \yii\helpers\ArrayHelper;
 
@@ -35,7 +36,7 @@ class SearchBox extends \yii\base\Widget
 			}
 		}
 		
-		$modelPriceType = \common\models\MasterValue::find()->where(['value_code'=>['search_price_type_sale','search_price_type_rent']])->andWhere(['locale'=>  substr(Yii::$app->language, 0,2)])->all();
+		$modelPriceType = MasterValue::find()->where(['value_code'=>['search_price_type_sale','search_price_type_rent']])->andWhere(['locale'=>  substr(Yii::$app->language, 0,2)])->all();
 		$listPriceType = [];
 		$jsonPriceType = [];
 		foreach ($modelPriceType as $type) {
@@ -54,10 +55,15 @@ class SearchBox extends \yii\base\Widget
 
 		$dataSelected = $session->get('filter');
 		$session->remove('filter');
-		if(!empty($dataSelected['id']))
+		$selectedTab = 1;
+		$isAdvanceSearch = false;
+		if(!empty($dataSelected['id'])){
 			$model->setAttributes ($dataSelected['id']);
+			$selectedTab = $dataSelected['id']['product_type'];
+			if(isset($dataSelected['id']['ward']) || isset($dataSelected['id']['street']) || isset($dataSelected['id']['project_id']) || isset($dataSelected['id']['room_number']) || isset($dataSelected['id']['direction']))
+				$isAdvanceSearch = true;
+		}
 		
-		$selectedTab = $dataSelected?$dataSelected['id']['product_type']:1;
 
         return $this->render('SearchBox',[
 			'model'=>$model,
@@ -67,7 +73,8 @@ class SearchBox extends \yii\base\Widget
 			'listPriceType' => $listPriceType,
 			'jsonPriceType' => json_encode($jsonPriceType),
 			'dataSelected' => $dataSelected,
-			'selectedTab' => $selectedTab
+			'selectedTab' => $selectedTab,
+			'isAdvanceSearch' => $isAdvanceSearch
 				]);
     }
 }

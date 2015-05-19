@@ -39,16 +39,31 @@ use yii\helpers\Html;
 	<div id="imgPrint"></div>
 	<div class="divcontact">
 		<!-- Slide images -->
-<!--		<div class="divslide" id="divmyGallery">
+		<?php if($model->productAttachments):?>
+		<div class="divslide" id="divmyGallery">
 			<div class="titlebox">
 				<h4 class="tt">Ảnh</h4>
 			</div>
-			<ul id="myGallery" style="text-align: center; padding: 10px 10px 6px; margin-bottom: 20px !important; background: rgb(228, 222, 215);">
-				<li style="list-style: none;">
-					<img src="./view_files/dothidiaoc_asd_fgh_crop_630_500_abc_3.20150411111650-563d.jpg" alt="Bán căn hộ chung cư 10A Trần Nhật Duật, Phường Tân Định, Quận 1. DT 62m2, giá 1.5 tỷ">
-				</li>
-			</ul>
-		</div>-->
+			<div id="galleria"  style="height:320px;text-align: center; background: #edebec;">
+				<?php foreach ($model->productAttachments as $img):?>
+				<?php if (\common\components\Utils::checkExistImage($img->path, $img->base_url)): ?>
+					<!--<li style="list-style: none;">-->
+						<a href="<?php echo $img->base_url.'/'.$img->path ;?>">
+					<?php echo Html::img(
+						Yii::$app->glide->createSignedUrl([
+							'glide/index',
+							'path' => $img->path,
+							'w' => 200
+						], true)
+					) ?>
+						</a>
+					<!--</li>-->
+				<?php endif; ?>
+				<?php endforeach;?>
+			</div>
+			<?php echo \thuongqbd\galleria\Galleria::widget()?>
+		</div>
+		<?php endif;?>
 		<div class="description mb20">
 			<div class="description-news mt20 clearfix">
 				<div id="info_other" class="box characteristics w-50-100 fl pr10">
@@ -312,10 +327,10 @@ use yii\helpers\Html;
 		</div>
 	</div>
 	<!-- Share -->
-<!--	<div class="divshare">
+	<div class="divshare">
 		<a href="javascript:printDetail();" class="print" rel="nofollow">In bài này</a>
 		<a id="saveNews" rel="nofollow" onclick="productSaved(this,'1903101');" class="save">Lưu tin</a>
-		[if !IE] 
+<!--		[if !IE] 
 		<div class="fl mt5 ml10">
 			<script type="text/javascript" src="./view_files/addthis_widget.js"></script>
 			<div class="addthis_native_toolbox" data-url="http://dothidiaoc.com/ban-can-ho-chung-cu-chung-cu-10a-tran-nhat-duat/ban-can-ho-chung-cu-10a-tran-nhat-duat-phuong-tan-dinh-quan-1-dt-62m2-gia-1-5-ty-pr1903101.htm" data-title="Bán chung cư 10A Trần Nhật Duật, Phường Tân Định, Q.1. diện tích 62m2, giá 1.5 tỷ. Liên hệ: 0938177289 | dothidiaoc.com">
@@ -333,6 +348,6 @@ use yii\helpers\Html;
 				</div>
 			</div>
 		</div>
-		[endif]     
-	</div>-->
+		[endif]     -->
+	</div>
 </div>

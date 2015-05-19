@@ -34,20 +34,20 @@ use yii\bootstrap\ActiveForm;
 		</div>
 		<div class="col-sm-6">
 			<?php
-//				$selectedCate= common\models\ProductCategory::getSelectedCate($model->parent_id);
-//				echo Html::hiddenInput('product_cate_parent_id', $model->parent_id, ['id'=>'product_cate_hidden']);
-//				echo $form->field($model, 'parent_id')->widget(kartik\depdrop\DepDrop::classname(), [
-//					'type'=>kartik\depdrop\DepDrop::TYPE_SELECT2,
-//					'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
-//					'data'=>  $selectedCate?$selectedCate:[],
-//					'pluginOptions'=>[
-//						'depends'=>['product-category-product_type'],
-//						'initialize'=>true,
-//						'placeholder'=>Yii::t('product_category','Parent'),
-//						'url'=>  \yii\helpers\Url::to(['/product/get-parents-list']),
-//						'params'=>['product_cate_hidden']
-//					]
-//				]);
+				$selectedCate= common\models\ProductCategory::getSelectedCate($model->parent_id);
+				echo Html::hiddenInput('product_cate_parent_id', $model->parent_id, ['id'=>'product_cate_hidden']);
+				echo $form->field($model, 'parent_id')->widget(kartik\depdrop\DepDrop::classname(), [
+					'type'=>kartik\depdrop\DepDrop::TYPE_SELECT2,
+					'select2Options'=>['pluginOptions'=>['allowClear'=>true]],
+					'data'=>  $selectedCate?$selectedCate:[],
+					'pluginOptions'=>[
+						'depends'=>['productcategory-product_type'],
+						'initialize'=>true,
+						'placeholder'=>Yii::t('product_category','Parent'),
+						'url'=>  \yii\helpers\Url::to(['/product-category/get-parents-list']),
+						'params'=>['productcategory-category_id','product_cate_hidden']
+					]
+				]);
 				?>
 		</div>
 	</div>

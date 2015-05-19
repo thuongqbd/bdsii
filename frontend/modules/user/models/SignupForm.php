@@ -7,14 +7,15 @@ use Yii;
 
 /**
  * Signup form
+ * @property \common\models\UserProfile $userProfile
  */
 class SignupForm extends Model
 {
     public $username;
     public $email;
     public $password;
-
-    /**
+	public $userProfile;
+	/**
      * @inheritdoc
      */
     public function rules()

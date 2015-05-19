@@ -10,16 +10,26 @@ use yii\helpers\Url;
  * This is the model class for table "user_profile".
  *
  * @property integer $user_id
- * @property integer $locale
+ * @property string $fullname
  * @property string $firstname
  * @property string $middlename
  * @property string $lastname
- * @property string $picture
- * @property string $avatar
- * @property string $avatar_path
- * @property string $avatar_base_url
  * @property integer $gender
- *
+ * @property string $yahoo
+ * @property string $skype
+ * @property string $avatar_path
+ * @property string $mobile
+ * @property string $intro
+ * @property integer $province
+ * @property integer $district
+ * @property integer $ward
+ * @property string $local_address
+ * @property string $avatar_base_url
+ * @property string $locale
+ * @property integer $account_type
+ * @property integer $dob
+ * @property string $phone
+ *	@property string $picture
  * @property User $user
  */
 class UserProfile extends \yii\db\ActiveRecord
@@ -56,11 +66,14 @@ class UserProfile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id'], 'required'],
-            [['user_id', 'gender'], 'integer'],
+            [['user_id'], 'required','except'=>'create'],
+			[['fullname','mobile'], 'required'],
+            [['gender', 'province', 'district', 'ward', 'account_type', 'dob'], 'integer'],
+            [['intro'], 'string'],
             [['gender'], 'in', 'range'=>[self::GENDER_FEMALE, self::GENDER_MALE]],
-            [['firstname', 'middlename', 'lastname', 'avatar_path', 'avatar_base_url'], 'string', 'max' => 255],
-            ['locale', 'default', 'value' => Yii::$app->language],
+            [['fullname', 'firstname', 'middlename', 'lastname', 'yahoo', 'skype', 'avatar_path', 'local_address', 'avatar_base_url'], 'string', 'max' => 255],
+            [['mobile', 'phone'], 'string', 'max' => 12],
+			['locale', 'default', 'value' => Yii::$app->language],
             ['locale', 'in', 'range' => array_keys(Yii::$app->params['availableLocales'])],
             ['picture', 'safe']
         ];
@@ -78,7 +91,19 @@ class UserProfile extends \yii\db\ActiveRecord
             'lastname' => Yii::t('common', 'Lastname'),
             'locale' => Yii::t('common', 'Locale'),
             'picture' => Yii::t('common', 'Picture'),
-            'gender' => Yii::t('common', 'Gender'),
+            'gender' => Yii::t('common', 'Gender'),			
+			'fullname' => Yii::t('common', 'Fullname'),
+            'yahoo' => Yii::t('common', 'Yahoo'),
+            'skype' => Yii::t('common', 'Skype'),
+            'avatar_path' => Yii::t('common', 'Avatar Path'),
+            'mobile' => Yii::t('common', 'Mobile'),
+            'intro' => Yii::t('common', 'Intro'),
+            'province' => Yii::t('product', 'Province'),
+            'district' => Yii::t('product', 'District'),
+            'ward' => Yii::t('product', 'Ward'),
+            'account_type' => Yii::t('common', 'Account Type'),
+            'dob' => Yii::t('common', 'Dob'),
+            'phone' => Yii::t('common', 'Phone'),
         ];
     }
 

@@ -138,5 +138,29 @@ class Controller extends \yii\web\Controller{
 		echo Json::encode($out);
 	}
 	
+	public function actionGetParentsList() {
+		$out = ['output'=>'', 'selected'=>''];
+		if (isset($_POST['depdrop_parents'])) {
+			$parents = $_POST['depdrop_parents'];			
+			if ($parents != null) {
+				$productType = $parents[0];
+				
+				$parentSelected = null;
+				if (!empty($_POST['depdrop_params'])) {
+					$params = $_POST['depdrop_params'];
+					$cateId = $params[0]; // get the value of input-type-1	
+					$out['selected'] = $params[1]; // get the value of input-type-1		
+				}
+				$model = new \common\models\ProductCategory();
+				$categories = $model->getList($productType,$cateId);
+				foreach ($categories as  $cate) {
+					$tmp['id'] = $cate->category_id;
+					$tmp['name'] = $cate->title;
+					$out['output'][] = $tmp;
+				}
+			}
+		}
+		echo \yii\helpers\Json::encode($out);
+	}
 }
 

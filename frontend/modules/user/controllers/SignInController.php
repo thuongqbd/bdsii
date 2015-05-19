@@ -59,7 +59,7 @@ class SignInController extends \yii\web\Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post']
+//                    'logout' => ['post']
                 ]
             ]
         ];
@@ -91,15 +91,20 @@ class SignInController extends \yii\web\Controller
     public function actionSignup()
     {
         $model = new SignupForm();
+		$profile = new \common\models\UserProfile();
+		$profile->setScenario('create');
         if ($model->load(Yii::$app->request->post())) {
-            $user = $model->signup();
-            if ($user && Yii::$app->getUser()->login($user)) {
-                return $this->goHome();
-            }
+			if($model->validate() && $profile->validate()){
+				$user = $model->signup();
+				if ($user && Yii::$app->getUser()->login($user)) {
+					return $this->goHome();
+				}
+			}          
         }
 
         return $this->render('signup', [
-            'model' => $model
+            'model' => $model,
+			'profile' => $profile
         ]);
     }
 

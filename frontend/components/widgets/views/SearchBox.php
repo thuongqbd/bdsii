@@ -13,7 +13,10 @@ use yii\widgets\ActiveForm;
 	var listPriceType = JSON.parse('<?php echo $jsonPriceType?>');
 </script>
 <div class="box search mt40 mb30">
-	<?php $form = ActiveForm::begin(); ?>
+	<?php 
+	$form = ActiveForm::begin(); 
+	$form->action = Yii::getAlias('@frontend');
+	?>
 	<?php echo Html::hiddenInput('Product[product_type]', $model->product_type, ['id'=>'product_type_hidden']);?>
 	<div class="title-tabs bor-bot-blue4 font-roboto position">
 		<ul class="type_bds clearfix">
@@ -25,9 +28,9 @@ use yii\widgets\ActiveForm;
 		<ul>			
 			<li class="item">
 				<?php
-				echo Html::hiddenInput('Product[product_cate]', $model->product_cate, ['id'=>'product_cate_hidden']);
+				echo Html::hiddenInput('product_cate', $model->product_cate, ['id'=>'product_cate_hidden']);
 				echo $form->field($model, 'product_cate')->label(false)->widget(\kartik\select2\Select2::classname(), [
-					'data' => $listCate["sale"],
+					'data' => $selectedTab==2?$listCate["rent"]:$listCate["sale"],
 					'options' => ['placeholder' =>  Yii::t('product', 'Category')],
 					'theme'=>'krajee',
 					'pluginOptions'=>['allowClear'=>true]
@@ -83,7 +86,7 @@ use yii\widgets\ActiveForm;
 			</li>
 			<li class="item">
 				<?= $form->field($model, 'price')->label(false)->widget(\kartik\select2\Select2::classname(), [
-					'data' => $listPriceType['sale'],
+					'data' => $selectedTab==2?$listPriceType['rent']:$listPriceType['sale'],
 					'options' => ['placeholder' =>  Yii::t('product', 'Price')],
 					'pluginOptions'=>['allowClear'=>true],
 					'theme'=>'krajee',
@@ -92,12 +95,16 @@ use yii\widgets\ActiveForm;
 //					]
 				]);?>
 			</li>
-			<li class="item last clearfix" style="min-width: 0; padding-left: 7px !important">
-				<div class="fr mt5 hidden">
-					<label id="lbAdvanced" onclick="advancedSearch();" class="blue cursor underline adv-btsearch">Tìm kiếm nâng cao</label>
-				</div>
+			<li class="item" style="min-width:0;width:128px;margin-right:0">
+				<button id="btnSearch" type="submit" class="bt-search bg-orange nobor cursor white bold uppercase font15 font-roboto fl" rel="nofollow" > 
+				<s class="ic-search fl mt2 mr5"></s>
+				<span class="mt2 fl">Tìm kiếm</span>
+				</button>
+				<a class="bt-search-adv bg-orange nobor cursor white bold uppercase font15 font-roboto fl" id="adv-search" title="<?= Yii::t('product','Advance Search ')?>">
+					<s class="ic-tools fl mt2 mr5"></s>
+				</a>
 			</li>
-			<li id="advanced" class="width-full mt10 fl">
+			<li id="advanced" class="width-full mt10 fl <?= $isAdvanceSearch?'':'hidden'?>">
 				<ul class="mt5">
 					<li class="item">
 						<?php
@@ -172,13 +179,7 @@ use yii\widgets\ActiveForm;
 		//						"select2:select"=>"function() {console.log('select2-selecting city',this.value);Utils.changeAddress('product',this);}",
 		//					]
 						]);?>
-					</li>
-					<li class="item" style="min-width:0;width:128px;margin-right:0">
-						<button id="btnSearch" type="submit" class="bt-seaerch bg-orange nobor cursor white bold uppercase font15 font-roboto width-full" rel="nofollow" > 
-						<s class="ic-search fl mt2 mr5"></s>
-						<span class="mt2 fl">Tìm kiếm</span>
-						</button>
-					</li>
+					</li>					
 				</ul>
 			</li>
 		</ul>

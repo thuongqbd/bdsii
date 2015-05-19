@@ -1009,3 +1009,20 @@ ul li .infor-descrip {
 .select2-container--krajee .select2-selection--single .select2-selection__placeholder {
   color: #333;
 }
+.select2-container--krajee .select2-dropdown{
+	width: 200px !important;
+	background-color: #fff;
+	border: 1px solid #eee;
+	box-shadow: 0 0.5px 0 0 #fff inset, 1px 1px 6px -2px #B3B3B3;
+	border-radius: 0 0 5px 5px;
+	padding: 5px;
+}
+.box.search .select2-container--krajee .select2-selection, .box.search .select2-container--krajee .select2-search--dropdown .select2-search__field{
+	border-radius: 0px !important;
+	background-color: #fff;
+	border: 1px solid #eee;
+	box-shadow: 0 0.5px 0 0 #fff inset, 1px 1px 6px -2px #B3B3B3;
+}
+.select2-container--krajee .select2-search--dropdown .select2-search__field{
+	border-radius: 0px;
+}

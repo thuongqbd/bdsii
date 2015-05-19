@@ -7,9 +7,26 @@ return [
     'rules'=> [
 		
 		['pattern'=>'', 'route'=>'site/index'],
-        // Pages
-        ['pattern'=>'page/<slug>', 'route'=>'page/view'],
-
+        
+		//User
+        ['pattern'=>'dang-ky', 'route'=>'user/sign-in/signup'],
+		['pattern'=>'register', 'route'=>'user/sign-in/signup'],
+		['pattern'=>'dang-nhap', 'route'=>'user/sign-in/login'],
+		['pattern'=>'login', 'route'=>'user/sign-in/login'],
+		['pattern'=>'dang-xuat', 'route'=>'user/sign-in/logout'],
+		['pattern'=>'logout', 'route'=>'user/sign-in/logout'],
+		['pattern'=>'yeu-cau-reset-mat-khau', 'route'=>'user/sign-in/request-password-reset'],
+		['pattern'=>'request-password-reset', 'route'=>'user/sign-in/request-password-reset'],
+		['pattern'=>'reset-mat-khau', 'route'=>'user/sign-in/reset-password'],
+		['pattern'=>'reset-password', 'route'=>'user/sign-in/reset-password'],
+		['pattern'=>'tai-khoan/thong-tin-ca-nhan', 'route'=>'user/default/profile'],
+		['pattern'=>'account/user-profile', 'route'=>'user/default/profile'],
+		['pattern'=>'tai-khoan/doi-mat-khau', 'route'=>'user/default/index'],
+		['pattern'=>'account/change-password', 'route'=>'user/default/index'],
+		
+		// Pages
+		['pattern'=>'page/<slug>', 'route'=>'page/view'],
+		
         // Articles
         ['pattern'=>'article/index', 'route'=>'article/index'],
         ['pattern'=>'article/<slug>', 'route'=>'article/view'],

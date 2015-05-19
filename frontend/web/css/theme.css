@@ -1084,9 +1084,12 @@ input[type=checkbox],input[type=radio],input.checkbox,input.radio {
 	color: #333;
 }
 
-.bt-seaerch {
-	padding: 3.5px 10px;
+.bt-search {
+	padding: 3.5px 4.5px;
 	font-weight: normal!important;
+}
+.bt-search-adv {
+	margin-left: 5px;
 }
 
 .mix-select {
@@ -1436,4 +1439,9 @@ s {
 	background-position: -36px -387px;
 	height: 21px;
 	width: 21px;
+}
+.ic-tools {
+  background-position: 4px -429px;
+  width: 28px;
+  height: 29px;
 }

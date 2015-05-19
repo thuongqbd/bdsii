@@ -13,8 +13,8 @@ use yii\widgets\ActiveForm;
 					</h1>
 				</div>
 				<div class="fr wr_order">
-					<div class="lblorder">Sắp xếp theo:</div>
-					<?= yii\helpers\Html::dropDownList('order', $order, common\components\MasterValues::listItemByCode('search_order'),['id'=>'filter-order'])?>					
+					<div class="lblorder"><?= Yii::t('product','Order by')?>:</div>
+					<?= yii\helpers\Html::dropDownList('order', $order, common\components\MasterValues::listItemByCode('search_order'),['id'=>'filter-order','style'=>'margin-top: 2px;'])?>					
 				</div>
 			</div>
 		</div>

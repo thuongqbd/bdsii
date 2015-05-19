@@ -135,6 +135,7 @@ $config = [
 			'enablePrettyUrl'=>true,
 			'showScriptName'=>false,
 			'enableLanguagePersistence' => false,
+			'enableLanguageDetection' => false,
 		],
         'urlManagerBackend' => \yii\helpers\ArrayHelper::merge(
             [
