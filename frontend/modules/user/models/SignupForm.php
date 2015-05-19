@@ -14,7 +14,9 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+	public $password_repeat;
 	public $userProfile;
+	public $captcha;
 	/**
      * @inheritdoc
      */
@@ -36,8 +38,11 @@ class SignupForm extends Model
                 'targetClass'=> '\common\models\User',
                 'message' => Yii::t('frontend', 'This email address has already been taken.')
             ],
-
-            ['password', 'required'],
+			['captcha', 'required'],
+			['captcha', 'captcha'],
+            ['password_repeat', 'required'],
+			['password_repeat', 'compare', 'compareAttribute' => 'password'],
+			['password', 'required'],
             ['password', 'string', 'min' => 6],
         ];
     }
@@ -53,21 +58,22 @@ class SignupForm extends Model
 
     /**
      * Signs user up.
-     *
+     * @param array $profileData
      * @return User|null the saved model or null if saving fails
      */
-    public function signup()
+    public function signup(array $profileData = [])
     {
-        if ($this->validate()) {
+//        if ($this->validate()) {
             $user = new User();
             $user->username = $this->username;
             $user->email = $this->email;
             $user->setPassword($this->password);
             $user->save();
-            $user->afterSignup();
-            return $user;
-        }
 
+            $user->afterSignup($profileData);
+            return $user;
+//        }
+//
         return null;
     }
 }

@@ -17,9 +17,9 @@ use yii\web\BadRequestHttpException;
 use yii\web\Response;
 use yii\widgets\ActiveForm;
 
-class SignInController extends \yii\web\Controller
+class SignInController extends \frontend\components\Controller
 {
-
+	public $layout = '@frontend/views/layouts/main_user.php';
     public function actions()
     {
         return [
@@ -93,9 +93,9 @@ class SignInController extends \yii\web\Controller
         $model = new SignupForm();
 		$profile = new \common\models\UserProfile();
 		$profile->setScenario('create');
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $profile->load(Yii::$app->request->post())) {
 			if($model->validate() && $profile->validate()){
-				$user = $model->signup();
+				$user = $model->signup($profile->attributes);
 				if ($user && Yii::$app->getUser()->login($user)) {
 					return $this->goHome();
 				}

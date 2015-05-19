@@ -21,9 +21,10 @@ return [
 		['pattern'=>'reset-password', 'route'=>'user/sign-in/reset-password'],
 		['pattern'=>'tai-khoan/thong-tin-ca-nhan', 'route'=>'user/default/profile'],
 		['pattern'=>'account/user-profile', 'route'=>'user/default/profile'],
-		['pattern'=>'tai-khoan/doi-mat-khau', 'route'=>'user/default/index'],
-		['pattern'=>'account/change-password', 'route'=>'user/default/index'],
+		['pattern'=>'tai-khoan/doi-mat-khau', 'route'=>'user/default/change-password'],
+		['pattern'=>'account/change-password', 'route'=>'user/default/change-password'],
 		
+		['pattern'=>'captcha', 'route'=>'site/captcha'],
 		// Pages
 		['pattern'=>'page/<slug>', 'route'=>'page/view'],
 		

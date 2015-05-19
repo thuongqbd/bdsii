@@ -1,8 +1,8 @@
 <?php
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
-
+//use yii\bootstrap\Nav;
+//use yii\bootstrap\NavBar;
+use yii\helpers\Url;
 /* @var $this \yii\web\View */
 /* @var $content string */
 
@@ -33,7 +33,7 @@ use yii\bootstrap\NavBar;
 				<div class="box-tagein cl5">
 					<ul class="clearfix">
 						<li><a href="http://dothidiaoc.com/dang-tin-ban-cho-thue-nha-dat.htm" class="bold white"><s class="ic-newsup fl mt3 mr5"></s>Đăng tin</a></li>
-						<li class="lang">
+						<li class="lang" style="margin: 0">
 							<?php
 							if(substr(Yii::$app->language, 0,2) == 'vi'){
 								echo Html::a('<img src="'.Yii::getAlias('@frontendUrl').'/images/cy-GB.gif"/>', ['site/index','language'=>'en']);
@@ -43,8 +43,13 @@ use yii\bootstrap\NavBar;
 									
 							?>
 						</li>
-						<li><a class="dangnhap " href="http://dothidiaoc.com/dang-nhap.htm" rel="nofollow"><s class="ic-login fl mt3 mr5"></s>Đăng nhập</a></li>
-						<li><a class="dangky " href="http://dothidiaoc.com/dang-ky.htm" rel="nofollow"><s class="ic-register fl mt3 mr5"></s>Đăng ký</a></li>			
+						<?php if(Yii::$app->user->isGuest):?>
+						<li><a class="dangnhap " href="<?= Url::to(['/user/sign-in/login'])?>" rel="nofollow"><s class="ic-login fl mt3 mr5"></s><?= Yii::t('frontend', 'Login')?></a></li>
+						<li><a class="dangky " href="<?= Url::to(['/user/sign-in/signup'])?>" rel="nofollow"><s class="ic-register fl mt3 mr5"></s><?= Yii::t('frontend', 'Signup')?></a></li>			
+						<?php else:?>
+						<li style="margin: 0"><a href="<?= Url::to(['/user/sign-in/logout'])?>" rel="nofollow"><s class="ic-cancel fl mt3 mr5"></s></s><?= Yii::t('frontend', 'Logout')?></a></li>
+						<li style="margin: 0"><a href="<?= Url::to(['/user/default/profile'])?>" rel="nofollow"><s class="ic-login fl mt3 mr5"></s></s><?= \common\models\UserProfile::findOne(Yii::$app->user->id)->fullname?></a></li>
+						<?php endif;?>
 					</ul>
 				</div>
 			</div>

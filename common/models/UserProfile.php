@@ -68,13 +68,14 @@ class UserProfile extends \yii\db\ActiveRecord
         return [
             [['user_id'], 'required','except'=>'create'],
 			[['fullname','mobile'], 'required'],
-            [['gender', 'province', 'district', 'ward', 'account_type', 'dob'], 'integer'],
+            [['gender', 'province', 'district', 'ward', 'account_type'], 'integer'],
             [['intro'], 'string'],
             [['gender'], 'in', 'range'=>[self::GENDER_FEMALE, self::GENDER_MALE]],
             [['fullname', 'firstname', 'middlename', 'lastname', 'yahoo', 'skype', 'avatar_path', 'local_address', 'avatar_base_url'], 'string', 'max' => 255],
             [['mobile', 'phone'], 'string', 'max' => 12],
 			['locale', 'default', 'value' => Yii::$app->language],
             ['locale', 'in', 'range' => array_keys(Yii::$app->params['availableLocales'])],
+			[['dob'], 'default', 'value'=>time()],
             ['picture', 'safe']
         ];
     }

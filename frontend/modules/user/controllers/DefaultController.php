@@ -8,10 +8,10 @@ use trntv\filekit\actions\DeleteAction;
 use trntv\filekit\actions\UploadAction;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 
-class DefaultController extends Controller
+class DefaultController extends \frontend\components\Controller
 {
+	public $layout = '@frontend/views/layouts/main_user.php';
     /**
      * @return array
      */
@@ -55,7 +55,7 @@ class DefaultController extends Controller
     /**
      * @return string|\yii\web\Response
      */
-    public function actionIndex()
+    public function actionChangePassword()
     {
         $user = Yii::$app->user->identity;
         $model = new AccountForm();
